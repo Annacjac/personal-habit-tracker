@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1 id="title">Habit Tracker</h1>
+    <p id="quote"></p>
+    <div id="main">
+        <div id="habit-page-selector-section">
+            <button class= "page-selector-btn selected-button" id="daily-habit-btn">Daily</button>
+            <button class= "page-selector-btn" id="weekly-habit-btn">Weekly</button>
+            <button class= "page-selector-btn" id="monthly-habit-btn">Monthly</button>
+        </div>
+        <div id="habits-section">
+            <div id="habits-headers">
+                <span class="habit-header" id="habit-name-header">Habit Name</span>
+                <span class="habit-header" id="habit-frequency-header">Frequency</span>
+                <span class="habit-header" id="habit-progress-header">Progress</span>
+            </div>
+            <div id="habits-container">
+                <div id="habit-and-add">
+                    <div id="daily-habits">
+                        
+                    </div>
+                    <div id="weekly-habits" hidden>
+                        
+                    </div>
+                    <div id="monthly-habits" hidden>
+                        
+                    </div>
+                    <button id="create-habit-btn">Create New Habit</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <form id="new-habit" hidden>
+        <h3 id="add-habit-title">Add Habit</h3>
+        <span class="field-name">Habit Name: </span>
+        <input id="name-input"><br />
+        <span class="field-name">Frequency: </span>
+        <input id="frequency-input" type="number"> per
+        <select id="interval-dropdown">
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+        </select> <br />
+        <div id="form-buttons">
+            <button id="add-btn" type="submit">Add</button>
+            <button id="cancel-btn">Cancel</button>
+        </div>
+    </form>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+body {
+    text-align: center;
+    align-items: center;
+    max-width: 750px;
+    margin: auto;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+#title {
+    margin-top: 50px;
+}
+
+#habits-headers {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 62%;
+    display: flex;
+}
+
+.habit-header {
+    width: 33%;
+}
+
+#habit-name-header {
+    text-align: left;
+}
+
+#habit-progress-header {
+    text-align: right;
+}
+
+#habit-page-selector-section {
+    display: flex;
+    justify-content: space-between;
+    width: 65%;
+    height: 30px;
+    margin:auto;
+    color: white;
+    background-color: darkgrey;
+}
+
+.page-selector-btn {
+    background: none;
+    color: white;
+    width: 33%;
+}
+
+
+.habit {
+    padding: 10px;
+    display: flex;
+    margin: auto;
+    width: 450px;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.habit-item {
+    width: 33%
+}
+
+.habit-name {
+    text-align: left;
+}
+
+.habit-progress {
+    text-align: right;
+}
+
+.selected-button {
+    background-color: grey;
+}
+
+#new-habit {
+    width: fit-content;
+    border: 1px black solid;
+    margin: auto;
+}
+
+#add-btn, #cancel-btn {
+    width: 48%;
+}
+
+#name-input {
+    margin-bottom: 10px;
+}
+
+#frequency-input {
+    width: 40px;
+    margin-bottom: 20px;
+}
+
+#create-habit-btn {
+    margin-top: 10px;
+}
+
+img {
+    width: 45px;
+}
+
+.edit-btn {
+    width: fit-content;
+    background: white;
+    text-align: left;
+    border: none;
+}
+
+.complete-btn {
+    width: fit-content;
+    background: white;
+    border: none;
+}
+
+.single-habit-container {
+    display: flex;
+    margin: auto;
+    max-width: 600px;
+}
+
+#quote {
+    margin: auto;
+    margin-bottom: 40px;
+    max-width: 60%;
+    text-align: center;
+    height: 75px;
+}
