@@ -95,8 +95,21 @@ body {
     margin-top: 10px;
 }
 
-img {
+#check-img, #edit-img {
     width: 45px;
+}
+
+#delete-img {
+    width: 10px;
+    margin-right: 5px;
+}
+
+#delete-btn {
+    background: none;
+    margin-top: 10px;
+    border: none;
+    color: red;
+    align-items: center;
 }
 
 .edit-btn {
@@ -110,6 +123,10 @@ img {
     width: fit-content;
     background: white;
     border: none;
+}
+
+.complete-btn:active{
+    background-color: grey;
 }
 
 .single-habit-container {

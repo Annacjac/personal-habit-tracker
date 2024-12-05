@@ -4,6 +4,8 @@ const monthlyHabitBtn = document.getElementById("monthly-habit-btn");
 const createHabitButton = document.getElementById("create-habit-btn");
 const addHabitBtn = document.getElementById("add-btn");
 const cancelBtn = document.getElementById("cancel-btn");
+const clearBtn = document.getElementById("clear-btn");
+const deleteBtn = document.getElementById("delete-btn");
 
 const dailyHabits = document.getElementById("daily-habits");
 const weeklyHabits = document.getElementById("weekly-habits");
@@ -21,7 +23,6 @@ const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going
 '"Small disciplines repeated with consistency every day lead to great achievements gained slowly over time." – John C. Maxwell',
 '"Your habits will determine your future." – Jack Canfield',
 '"First forget inspiration. Habit is more dependable. Habit will sustain you whether you’re inspired or not." – Octavia Butler',
-'"Chains of habit are too light to be felt until they are too heavy to be broken." – Warren Buffett',
 '"Discipline is choosing between what you want now and what you want most." – Abraham Lincoln',
 '"The secret of your future is hidden in your daily routine." – Mike Murdock',
 '"You’ll never change your life until you change something you do daily. The secret of your success is found in your daily routine." – John C. Maxwell',
@@ -32,14 +33,18 @@ const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going
 
 let habitsList = JSON.parse(localStorage.getItem("data")) || [];
 let currentHabitPage = "Daily";
-let idNumber = 0;
+let idNumber = JSON.parse(localStorage.getItem("idNumber")) || 0;
+let currentHabit = {};
 
 dailyHabitBtn.addEventListener("click", showDailyHabits);
 weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
 monthlyHabitBtn.addEventListener("click", showMonthlyHabits);
-addHabitBtn.addEventListener("click", addHabit);
-createHabitButton.addEventListener("click", openNewHabitForm);
-cancelBtn.addEventListener("click", closeNewHabitForm);
+createHabitButton.addEventListener("click", openHabitForm);
+addHabitBtn.addEventListener("click", addOrEditHabit);
+cancelBtn.addEventListener("click", closeHabitForm);
+clearBtn.addEventListener("click", clearList);
+deleteBtn.addEventListener("click", deleteHabit);
+
 newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 })
@@ -89,32 +94,34 @@ function updateHabitList() {
     weeklyHabits.innerHTML = "";
     monthlyHabits.innerHTML = "";
 
-    habitsList.forEach(({id, name, type, frequency, interval, progress}) => {
-        
+    for(let i = 0; i < habitsList.length; i++) {
         let html = `
         <div class="single-habit-container">
-            <button class="complete-btn" onclick="increaseProgress('${id}')"><img src="https://cdn0.iconfinder.com/data/icons/harmonicons-02/64/check-box-512.png"></button>
-            <div class="habit" id="${id}">
-                <div class="habit-name habit-item">${name}</div>
-                <div class="habit-frequency habit-item">${frequency} / ${interval}</div>
-                <div class="habit-progress habit-item">${progress} / ${frequency}</div>
+            <button class="complete-btn" onclick="increaseProgress('${habitsList[i].id}')"><img id="check-img" src="https://cdn0.iconfinder.com/data/icons/harmonicons-02/64/check-box-512.png"></button>
+            <div class="habit" id="${habitsList[i].id}">
+                <div class="habit-name habit-item">${habitsList[i].name}</div>
+                <div class="habit-frequency habit-item">${habitsList[i].frequency} / ${habitsList[i].interval}</div>
+                <div class="habit-progress habit-item">${habitsList[i].progress} / ${habitsList[i].frequency}</div>
             </div>
-            <button class="edit-btn"><img src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png"></button>
+            <button class="edit-btn" onclick="editHabit('${habitsList[i].id}')"><img id="edit-img" src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png"></button>
         </div>`;
         
-        if(type === "day") {
+        if(habitsList[i].type === "day") {
             dailyHabits.innerHTML += html;
         }
-        else if(type === "week") {
+        else if(habitsList[i].type === "week") {
             weeklyHabits.innerHTML += html;
         }
         else {
             monthlyHabits.innerHTML += html;
         }
-    })
+
+    }
 }
 
-function addHabit() {
+function addOrEditHabit() {
+    deleteBtn.hidden = "true";
+    
     if(!newHabitNameInput.value || !newHabitFrequencyInput) {
         alert("Please fill all input fields.");
         return;
@@ -131,13 +138,14 @@ function addHabit() {
     }
 
     idNumber++;
+    localStorage.setItem("idNumber", JSON.stringify(idNumber));
 
     habitsList.push(habit);
     localStorage.setItem("data", JSON.stringify(habitsList));
 
     updateHabitList();
 
-    closeNewHabitForm();
+    closeHabitForm();
     clearCreateHabitForm();
 }
 
@@ -149,28 +157,33 @@ function clearCreateHabitForm() {
 
 function increaseProgress(id) {
 
-    if(!findHabitById(id)){
+    let habit = findHabitById(id);
+    console.log(habit.id);
+
+
+    if(!habit){
         console.error("Habit not found.");
         return;
     }
 
-    if(Number(findHabitById(id).progress) === Number(findHabitById(id).frequency)){
-        console.log("You have already reached your goal for this habit!");
+    if(Number(habit.progress) === Number(habit.frequency)){
+        alert("You have already reached your goal for this habit!");
+        return;
     }
 
-    console.log("Progress: " + findHabitById(id).progress + " Frequency: " + findHabitById(id).frequency)
+    //console.log("Progress: " + habit.progress + " Frequency: " + habit.frequency)
     
-    findHabitById(id).progress++;
+    habit.progress++;
     localStorage.setItem("data", JSON.stringify(habitsList));
     updateHabitList();
 }
 
-function openNewHabitForm() {
+function openHabitForm() {
     mainPage.hidden = "true";
     newHabitForm.removeAttribute("hidden");
 }
 
-function closeNewHabitForm() {
+function closeHabitForm() {
     newHabitForm.hidden = "true";
     mainPage.removeAttribute("hidden");
 }
@@ -190,4 +203,35 @@ function findHabitById(id) {
     return null;
 }
 
-//localStorage.clear();
+function clearList() {
+    while(habitsList.length > 0) {
+        habitsList.pop();
+    }
+
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    updateHabitList();
+}
+
+function editHabit(id) {
+    let habit = findHabitById(id);
+    deleteBtn.removeAttribute("hidden");
+
+    openHabitForm();
+    document.getElementById("add-habit-title").innerText = "Edit Habit";
+    addHabitBtn.innerText = "Save";
+    newHabitNameInput.value = habit.name;
+    newHabitFrequencyInput.value = habit.frequency;
+    newHabitIntervalInput.value = habit.interval;
+}
+
+function saveEditedHabit() {
+
+}
+
+function deleteHabit(id) {
+    let index = habitsList.indexOf(findHabitById(id));
+    habitsList.splice(index, 1);
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    updateHabitList();
+    closeHabitForm();
+}
