@@ -31,11 +31,10 @@ const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going
 '"It’s not what we do once in a while that shapes our lives, but what we do consistently." – Tony Robbins',
 '"The difference between who you are and who you want to be is what you do." – Charles Duhigg',
 '"Every action you take is a vote for the type of person you wish to become." – James Clear'];
-
 let habitsList = JSON.parse(localStorage.getItem("data")) || [];
 let currentHabitPage = "Daily";
 let idNumber = JSON.parse(localStorage.getItem("idNumber")) || 0;
-let currentHabit = {};
+
 
 dailyHabitBtn.addEventListener("click", showDailyHabits);
 weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
@@ -51,6 +50,7 @@ newHabitForm.addEventListener("submit", (e) => {
 
 updateHabitList();
 getRandomQuote();
+checkDate();
 
 function showDailyHabits(){
     dailyHabits.removeAttribute("hidden");
@@ -95,7 +95,6 @@ function updateHabitList() {
     monthlyHabits.innerHTML = "";
 
     for(let i = 0; i < habitsList.length; i++) {
-        //console.log("Name: " + habitsList[i].name);
         let html = `
         <div class="single-habit-container">
             <button class="complete-btn" onclick="increaseProgress('${habitsList[i].id}')"><img id="check-img" src="https://cdn0.iconfinder.com/data/icons/harmonicons-02/64/check-box-512.png"></button>
@@ -167,8 +166,6 @@ function increaseProgress(id) {
         alert("You have already reached your goal for this habit!");
         return;
     }
-
-    //console.log("Progress: " + habit.progress + " Frequency: " + habit.frequency)
     
     habit.progress++;
     localStorage.setItem("data", JSON.stringify(habitsList));
@@ -197,7 +194,6 @@ function openHabitForm(addOrEdit, id) {
 function closeHabitForm() {
     newHabitForm.hidden = "true";
     mainPage.removeAttribute("hidden");
-    //console.log(habitsList);
     clearCreateHabitForm();
     
 }
@@ -225,7 +221,6 @@ function clearList() {
     idNumber = 0;
     localStorage.setItem("idNumber", JSON.stringify(idNumber));
     localStorage.setItem("data", JSON.stringify(habitsList));
-    //console.log(habitsList.length);
 }
 
 function editHabit(id) {
@@ -238,10 +233,6 @@ function editHabit(id) {
     updateHabitList();
 }
 
-function saveEditedHabit() {
-
-}
-
 function deleteHabit(id) {
     let index = habitsList.indexOf(findHabitById(id));
     habitsList.splice(index, 1);
@@ -252,4 +243,65 @@ function deleteHabit(id) {
     }
     updateHabitList();
     closeHabitForm();
+}
+
+function findHabitsByInterval(interval) {
+    let habits = [];
+    for(let i = 0; i < habitsList.length; i++) {
+        if(habitsList[i].interval === interval) {
+            habits.push(habitsList[i]);
+        }
+    }
+
+    return habits;
+}
+
+function checkDate() {
+    let currentDate = new Date();
+    let storedDate = JSON.parse(localStorage.getItem("oldDate"));
+    let oldDate = storedDate ? new Date(storedDate) : new Date();
+
+    console.log("Old oldDate: " + oldDate + " Old currentDate: " + currentDate);
+
+
+    //const startOfLastWeek = new Date(oldDate);
+    //startOfLastWeek.setDate(oldDate.getDate() - oldDate.getDay());
+    // //console.log(startOfLastWeek);
+    // const startOfThisWeek = new Date(startOfLastWeek);
+    // startOfThisWeek.setDate(startOfLastWeek.getDate() + 7);
+    // //console.log(startOfThisWeek);
+
+
+    // let dailyHabits = findHabitsByInterval("day");
+    // let weeklyHabits = findHabitsByInterval("week");
+    // let monthlyHabits = findHabitsByInterval("month");
+
+    // if(currentDate > oldDate) {
+    //     for(let i = 0; i < dailyHabits.length; i++) {
+    //         resetProgress(dailyHabits[i].id);
+    //     }
+    // }
+
+    // if(currentDate > startOfThisWeek && oldDate < startOfThisWeek) {
+    //     for(let i = 0; i < weeklyHabits.length; i++) {
+    //         resetProgress(weeklyHabits[i].id);
+    //     }
+    // }
+
+    // if(currentDate.getMonth() > oldDate.getMonth() || currentDate.getFullYear() > oldDate.getFullYear()) {
+    //     for(let i = 0; i < monthlyHabits.length; i++) {
+    //         resetProgress(monthlyHabits[i].id);
+    //     }
+    // }
+
+    localStorage.setItem("date", currentDate.toISOString());
+    // oldDateObject = JSON.parse(localStorage.getItem("date"));
+    
+}
+
+function resetProgress(id) {
+    findHabitById(id).progress = 0;
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    updateHabitList();
+    console.log(habitsList);
 }
