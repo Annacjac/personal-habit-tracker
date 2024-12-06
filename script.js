@@ -15,6 +15,7 @@ const mainPage = document.getElementById("main");
 const newHabitNameInput = document.getElementById("name-input");
 const newHabitFrequencyInput = document.getElementById("frequency-input");
 const newHabitIntervalInput = document.getElementById("interval-dropdown");
+const addHabitTitle = document.getElementById("add-habit-title");
 const quote = document.getElementById("quote");
 
 const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." – Jim Ryun',
@@ -39,8 +40,7 @@ let currentHabit = {};
 dailyHabitBtn.addEventListener("click", showDailyHabits);
 weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
 monthlyHabitBtn.addEventListener("click", showMonthlyHabits);
-createHabitButton.addEventListener("click", openHabitForm);
-addHabitBtn.addEventListener("click", addOrEditHabit);
+createHabitButton.addEventListener("click", () => openHabitForm("add", ""));
 cancelBtn.addEventListener("click", closeHabitForm);
 clearBtn.addEventListener("click", clearList);
 deleteBtn.addEventListener("click", deleteHabit);
@@ -95,6 +95,7 @@ function updateHabitList() {
     monthlyHabits.innerHTML = "";
 
     for(let i = 0; i < habitsList.length; i++) {
+        //console.log("Name: " + habitsList[i].name);
         let html = `
         <div class="single-habit-container">
             <button class="complete-btn" onclick="increaseProgress('${habitsList[i].id}')"><img id="check-img" src="https://cdn0.iconfinder.com/data/icons/harmonicons-02/64/check-box-512.png"></button>
@@ -103,13 +104,13 @@ function updateHabitList() {
                 <div class="habit-frequency habit-item">${habitsList[i].frequency} / ${habitsList[i].interval}</div>
                 <div class="habit-progress habit-item">${habitsList[i].progress} / ${habitsList[i].frequency}</div>
             </div>
-            <button class="edit-btn" onclick="editHabit('${habitsList[i].id}')"><img id="edit-img" src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png"></button>
+            <button class="edit-btn" onclick="openHabitForm('edit', '${habitsList[i].id}')"><img id="edit-img" src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png"></button>
         </div>`;
         
-        if(habitsList[i].type === "day") {
+        if(habitsList[i].interval === "day") {
             dailyHabits.innerHTML += html;
         }
-        else if(habitsList[i].type === "week") {
+        else if(habitsList[i].interval === "week") {
             weeklyHabits.innerHTML += html;
         }
         else {
@@ -119,7 +120,7 @@ function updateHabitList() {
     }
 }
 
-function addOrEditHabit() {
+function addHabit() {
     deleteBtn.hidden = "true";
     
     if(!newHabitNameInput.value || !newHabitFrequencyInput) {
@@ -131,7 +132,6 @@ function addOrEditHabit() {
     let habit = {
         id: `habit${idNumber}`,
         name: newHabitNameInput.value,
-        type: newHabitIntervalInput.value,
         frequency: newHabitFrequencyInput.value,
         interval: newHabitIntervalInput.value,
         progress: 0
@@ -144,21 +144,18 @@ function addOrEditHabit() {
     localStorage.setItem("data", JSON.stringify(habitsList));
 
     updateHabitList();
-
     closeHabitForm();
-    clearCreateHabitForm();
 }
 
 function clearCreateHabitForm() {
     newHabitNameInput.value = "";
-    newHabitFrequencyInput = "";
+    newHabitFrequencyInput.value = "";
     newHabitIntervalInput.value = "day";
 }
 
 function increaseProgress(id) {
 
     let habit = findHabitById(id);
-    console.log(habit.id);
 
 
     if(!habit){
@@ -178,14 +175,31 @@ function increaseProgress(id) {
     updateHabitList();
 }
 
-function openHabitForm() {
+function openHabitForm(addOrEdit, id) {
+    habit = findHabitById(id);
     mainPage.hidden = "true";
     newHabitForm.removeAttribute("hidden");
+    if(addOrEdit === "add") {
+        addHabitTitle.innerText = "Add Habit";
+        addHabitBtn.innerText = "Add";
+        addHabitBtn.onclick = () => addHabit();
+    }
+    else if(addOrEdit === "edit") {
+        newHabitNameInput.value = habit.name;
+        newHabitFrequencyInput.value = habit.frequency;
+        newHabitIntervalInput.value = habit.interval; 
+        addHabitTitle.innerText = "Edit Habit";
+        addHabitBtn.innerText = "Save";
+        addHabitBtn.onclick = () => editHabit(habit.id);
+    }
 }
 
 function closeHabitForm() {
     newHabitForm.hidden = "true";
     mainPage.removeAttribute("hidden");
+    //console.log(habitsList);
+    clearCreateHabitForm();
+    
 }
 
 function getRandomQuote() {
@@ -206,22 +220,22 @@ function findHabitById(id) {
 function clearList() {
     while(habitsList.length > 0) {
         habitsList.pop();
+        updateHabitList();
     }
-
+    idNumber = 0;
+    localStorage.setItem("idNumber", JSON.stringify(idNumber));
     localStorage.setItem("data", JSON.stringify(habitsList));
-    updateHabitList();
+    //console.log(habitsList.length);
 }
 
 function editHabit(id) {
-    let habit = findHabitById(id);
-    deleteBtn.removeAttribute("hidden");
-
-    openHabitForm();
-    document.getElementById("add-habit-title").innerText = "Edit Habit";
-    addHabitBtn.innerText = "Save";
-    newHabitNameInput.value = habit.name;
-    newHabitFrequencyInput.value = habit.frequency;
-    newHabitIntervalInput.value = habit.interval;
+    
+    findHabitById(id).name = newHabitNameInput.value;
+    findHabitById(id).frequency = newHabitFrequencyInput.value;
+    findHabitById(id).interval = newHabitIntervalInput.value;
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    closeHabitForm();
+    updateHabitList();
 }
 
 function saveEditedHabit() {
@@ -232,6 +246,10 @@ function deleteHabit(id) {
     let index = habitsList.indexOf(findHabitById(id));
     habitsList.splice(index, 1);
     localStorage.setItem("data", JSON.stringify(habitsList));
+    if (habitsList.length === 0 ) {
+        idNumber = 0;
+        localStorage.setItem("idNumber", JSON.stringify(idNumber));
+    }
     updateHabitList();
     closeHabitForm();
 }
