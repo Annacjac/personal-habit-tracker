@@ -24,7 +24,8 @@ body {
 
 #title {
     margin-top: 50px;
-
+    font-size: 50px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 
 #title, #quote {
@@ -72,6 +73,8 @@ body {
     width: 20%;
     border: none;
     font-size: 20px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   
 }
 
 
@@ -139,7 +142,7 @@ body {
     background-color: #fdf8ef;
 }
 
-#add-btn, #cancel-btn {
+#add-btn, #cancel-btn  {
     width: 60%;
     height: 40px;
     border: none;
@@ -207,23 +210,23 @@ body {
 
 #search-btn {
     border: none;
-    background-image: url("https://static-00.iconduck.com/assets.00/search-icon-1023x1024-cz5u4134.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: #a26769;
-    width: 40px;
-    height: 40px;
+    background-color: #cebebe;
+    width: 12%;
+    height: 43px;
+    font-weight: bold;
+    border-radius: 15px;
     margin-left: 5px;
 }
 
 #search-bar {
     border: none;
-    margin-bottom: 50px;
-    width: 60%;
+    margin-bottom: 30px;
+    width: 55%;
     height: 40px;
     margin-right: 5px;
     background-color: #ece2d0;
     border-radius: 15px;
+    font-size: 14px;
 }
 
 .single-habit-container {
@@ -235,9 +238,10 @@ body {
 #quote {
     margin: auto;
     margin-bottom: 40px;
-    max-width: 60%;
+    max-width: 90%;
     text-align: center;
     height: fit-content;
+    font-size: 20px;
 }
 
 #divider {
@@ -275,4 +279,42 @@ body {
 
 #monthly-habit-btn {
     margin-left: -100px;
+}
+
+#confirmation-prompt {
+    background-color: #d5b9b2;
+    margin: auto;
+    margin-top: 50px;
+    max-width: 300px;;
+    height: fit-content;
+    padding-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    border-radius: 30px; 
+    
+}
+
+#confirmation-prompt-background {
+    background: #6d2e46;
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 200px;
+}
+
+#prompt {
+    font-size: 20px;
+}
+
+#yes-btn, #no-btn {
+    height: 40px;
+    border: none;
+    width: 48.5%;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #fdf8ef;
 }

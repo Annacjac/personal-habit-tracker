@@ -6,6 +6,9 @@ const addHabitBtn = document.getElementById("add-btn");
 const cancelBtn = document.getElementById("cancel-btn");
 const clearBtn = document.getElementById("clear-btn");
 const deleteBtn = document.getElementById("delete-btn");
+const searchBtn = document.getElementById("search-btn");
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
 
 const dailyHabits = document.getElementById("daily-habits");
 const weeklyHabits = document.getElementById("weekly-habits");
@@ -17,6 +20,9 @@ const newHabitFrequencyInput = document.getElementById("frequency-input");
 const newHabitIntervalInput = document.getElementById("interval-dropdown");
 const addHabitTitle = document.getElementById("add-habit-title");
 const quote = document.getElementById("quote");
+const searchBar = document.getElementById("search-bar");
+const confirmationPrompt = document.getElementById("prompt");
+const confirmationPopup = document.getElementById("confirmation-prompt-background");
 
 const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." – Jim Ryun',
 '"We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle',
@@ -40,14 +46,16 @@ dailyHabitBtn.addEventListener("click", showDailyHabits);
 weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
 monthlyHabitBtn.addEventListener("click", showMonthlyHabits);
 createHabitButton.addEventListener("click", () => openHabitForm("add", ""));
-cancelBtn.addEventListener("click", closeHabitForm);
+cancelBtn.addEventListener("click", () => confirmChanges("cancel", ""));
 //clearBtn.addEventListener("click", () => clearHabitsOfInterval("day"));
-deleteBtn.addEventListener("click", deleteHabit);
+searchBtn.addEventListener("click", () => searchHabits(searchBar.value));
+noBtn.addEventListener("click", noButton);
 
 newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 })
 
+confirmationPopup.hidden = "true";
 updateHabitList(habitsList);
 getRandomQuote();
 checkDate();
@@ -62,7 +70,10 @@ function showDailyHabits(){
     weeklyHabitBtn.classList.remove("selected-button");
     monthlyHabitBtn.classList.remove("selected-button");
 
-    clearBtn.onclick = () => clearHabitsOfInterval("day");
+    searchBar.value = "";
+    updateHabitList(habitsList);
+
+    clearBtn.onclick = () => confirmChanges("clear", "day");
 
     currentHabitPage = "Daily";
 }
@@ -76,7 +87,10 @@ function showWeeklyHabits(){
     weeklyHabitBtn.classList.add("selected-button");
     monthlyHabitBtn.classList.remove("selected-button");
 
-    clearBtn.onclick = () => clearHabitsOfInterval("week");
+    searchBar.value = "";
+    updateHabitList(habitsList);
+
+    clearBtn.onclick = () => confirmChanges("clear", "week");
 
     currentHabitPage = "Weekly";
 }
@@ -90,7 +104,10 @@ function showMonthlyHabits(){
     weeklyHabitBtn.classList.remove("selected-button");
     monthlyHabitBtn.classList.add("selected-button");
 
-    clearBtn.onclick = () => clearHabitsOfInterval("month");
+    searchBar.value = "";
+    updateHabitList(habitsList);
+
+    clearBtn.onclick = () => confirmChanges("clear", "week");
 
     currentHabitPage = "Monthly";
 }
@@ -222,6 +239,7 @@ function openHabitForm(addOrEdit, id) {
         addHabitTitle.innerText = "Edit Habit";
         addHabitBtn.innerText = "Save";
         deleteBtn.removeAttribute("hidden");
+        deleteBtn.onclick = () => confirmChanges("delete", "", habit.id);
         addHabitBtn.onclick = () => editHabit(habit.id);
     }
 }
@@ -279,7 +297,7 @@ function editHabit(id) {
     findHabitById(id).interval = newHabitIntervalInput.value;
     localStorage.setItem("data", JSON.stringify(habitsList));
     closeHabitForm();
-    updateHabitList(habitsList);
+    searchHabits(searchBar.value);
 }
 
 function deleteHabit(id) {
@@ -306,7 +324,25 @@ function findHabitsByInterval(interval) {
 }
 
 function findHabitsByName(name, array) {
-    
+    let habits = [];
+    for(let i = 0; i < array.length; i++) {
+        if(array[i].name.match(name)) {
+            habits.push(array[i]);
+        }
+    }
+    return habits;
+}
+
+function searchHabits(name) {
+    if(currentHabitPage === "Daily") {
+        updateHabitList(findHabitsByName(name, findHabitsByInterval("day")));
+    }
+    else if(currentHabitPage === "Weekly") {
+        updateHabitList(findHabitsByName(name, findHabitsByInterval("week")));
+    }
+    else {
+        updateHabitList(findHabitsByName(name, findHabitsByInterval("month")));
+    }
 }
 
 function checkDate() {
@@ -353,6 +389,59 @@ function resetProgress(id) {
     updateHabitList();
 }
 
-function confirmChanges() {
 
+function confirmChanges(action, interval, id) {
+    if(action === "clear") {
+        if(findHabitsByInterval(interval).length === 0){
+            return;
+        }
+        confirmationPopup.removeAttribute("hidden");
+        let intervalText = "";
+        switch (interval) {
+            case "day" :
+                intervalText = "daily";
+                break;
+            case "week":
+                intervalText = "weekly";
+                break;
+            case "month":
+                intervalText = "monthly";
+                break;
+            default:
+                break;
+        }
+        confirmationPrompt.innerText = `Are you sure you want to clear your ${intervalText} habits? This cannot be undone.`;
+        yesBtn.onclick = () => yesButton("clear", interval, "");
+    }
+    else if(action === "delete") {
+        confirmationPopup.removeAttribute("hidden");
+        confirmationPrompt.innerText = "Are you sure you want to delete this task? This cannot be undone.";
+        yesBtn.onclick = () => yesButton("delete", "", id, "");
+    }
+    else if(action === "cancel") {
+        confirmationPopup.removeAttribute("hidden");
+        confirmationPrompt.innerText = "Are you sure you want to cancel? Any unsaved changes will be lost!";
+        yesBtn.onclick = () => yesButton("cancel", "", "");
+    }
+}
+
+function yesButton(action, interval, id) {
+    confirmationPopup.hidden = "true";
+    if(action === "clear") {
+        clearHabitsOfInterval(interval);
+        
+    }
+
+    else if(action === "delete") {
+        deleteHabit(id);
+    }
+
+    else if(action === "cancel") {
+        closeHabitForm();
+
+    }
+}
+
+function noButton() {
+    confirmationPopup.hidden = "true";
 }

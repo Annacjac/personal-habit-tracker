@@ -8,17 +8,24 @@
   </head>
   <body>
     <div id="top-section">
-        <h1 id="title">Habit Tracker</h1>
+        <h1 id="title">Personal Habit Tracker</h1>
         <p id="quote"></p>
         
     </div>
+    <div id="confirmation-prompt-background">
+        <div id="confirmation-prompt">
+            <p id="prompt"></p>
+            <button id="yes-btn">Yes</button>
+            <button id="no-btn">No</button>
+        </div>
+    </div>    
     <div id="main">
         <div id="habit-page-selector-section">
             <button class= "page-selector-btn selected-button" id="daily-habit-btn">Daily</button>
             <button class= "page-selector-btn" id="weekly-habit-btn">Weekly</button>
             <button class= "page-selector-btn" id="monthly-habit-btn">Monthly</button>
         </div>
-        <input id="search-bar" placeholder="Search for a habit..."><button id="search-btn"></button>
+        <input id="search-bar" placeholder="  Search for a habit..."><button id="search-btn">Search</button>
         <div id="habits-section">
             <div id="habits-headers">
                 <span class="habit-header" id="habit-name-header">Habit Name</span>
@@ -56,6 +63,7 @@
             <button id="delete-btn" hidden><img id="delete-img" src="https://uxwing.com/wp-content/themes/uxwing/download/user-interface/red-trash-can-icon.png">Delete Habit</button>
         </div>
     </form>
+    
     <script src="script.js"></script>
   </body>
 </html>
