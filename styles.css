@@ -1,25 +1,47 @@
+.root {
+    --greyPurple: #6d6875;
+}
+
 body {
     text-align: center;
     align-items: center;
     max-width: 750px;
     margin: auto;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #6d2e46;
+    
+}
+
+#main {
+    background-color: #a26769;
+    width: 100%;
+    margin: auto;
+    margin-left: -15px;
+    height: fit-content;
+    padding-bottom: 50px;
+    border-radius: 30px;
 }
 
 #title {
     margin-top: 50px;
+
+}
+
+#title, #quote {
+    color: #ece2d0;
 }
 
 #habits-headers {
     margin: auto;
     margin-top: 20px;
     margin-bottom: 10px;
-    width: 62%;
+    width: 80%;
     display: flex;
 }
 
 .habit-header {
     width: 33%;
+    font-weight: bold;
 }
 
 #habit-name-header {
@@ -32,18 +54,24 @@ body {
 
 #habit-page-selector-section {
     display: flex;
-    justify-content: space-between;
-    width: 65%;
-    height: 30px;
+    justify-content: space-around;
+    width: 100%;
+    height: 50px;
     margin:auto;
+    margin-bottom: 30px;
     color: white;
-    background-color: darkgrey;
+    background-color: #cebebe;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
 }
 
 .page-selector-btn {
     background: none;
-    color: white;
-    width: 33%;
+    color: black;
+    font-weight: bold;
+    width: 20%;
+    border: none;
+    font-size: 20px;
 }
 
 
@@ -51,17 +79,21 @@ body {
     padding: 10px;
     display: flex;
     margin: auto;
+    margin-bottom: 20px;
+    margin-left: 4px;
+    margin-right: 4px;
     width: 450px;
-    border: 2px solid black;
     border-radius: 15px;
 }
 
 .habit-item {
-    width: 33%
+    width: 33%;
+    
 }
 
 .habit-name {
     text-align: left;
+    
 }
 
 .habit-progress {
@@ -69,17 +101,53 @@ body {
 }
 
 .selected-button {
-    background-color: grey;
+    text-decoration-line: underline;
+    text-decoration-thickness: 3px;;
+    text-underline-offset: 6px;
 }
 
 #new-habit {
-    width: fit-content;
-    border: 1px black solid;
+    width: 400px;
+    height: fit-content;
+    padding: 40px;
     margin: auto;
+    background-color: #d5b9b2;
+    border-radius: 30px;
+}
+
+#add-habit-title {
+    margin-top: -10px;
+    font-size: 24px;
+}
+
+.field-name {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.input-field {
+    height: 25px;
+    border: none;
+    border-radius: 15px;
+    background-color: #fdf8ef;
+}
+
+#interval-dropdown {
+    height: 30px;
+    border: none;
+    border-radius: 15px;
+    background-color: #fdf8ef;
 }
 
 #add-btn, #cancel-btn {
-    width: 48%;
+    width: 60%;
+    height: 40px;
+    border: none;
+    width: 49%;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #fdf8ef;
 }
 
 #name-input {
@@ -91,16 +159,18 @@ body {
     margin-bottom: 20px;
 }
 
-#create-habit-btn {
-    margin-top: 10px;
-}
-
-#check-img, #edit-img {
-    width: 45px;
+#create-habit-btn, #clear-btn {
+    width: 49%;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #cebebe; 
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 #delete-img {
-    width: 10px;
+    width: 20px;
     margin-right: 5px;
 }
 
@@ -110,23 +180,50 @@ body {
     border: none;
     color: red;
     align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.edit-btn, .complete-btn{
+    width: 55px;
+    height: 55px;
+    min-height: 55px;
+    background-color: #d5b9b2;
 }
 
 .edit-btn {
-    width: fit-content;
-    background: white;
-    text-align: left;
     border: none;
+    background-image: url("https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .complete-btn {
-    width: fit-content;
-    background: white;
     border: none;
+    background-image: url("https://cdn0.iconfinder.com/data/icons/harmonicons-02/64/check-box-512.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.complete-btn:active{
-    background-color: grey;
+#search-btn {
+    border: none;
+    background-image: url("https://static-00.iconduck.com/assets.00/search-icon-1023x1024-cz5u4134.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #a26769;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+}
+
+#search-bar {
+    border: none;
+    margin-bottom: 50px;
+    width: 60%;
+    height: 40px;
+    margin-right: 5px;
+    background-color: #ece2d0;
+    border-radius: 15px;
 }
 
 .single-habit-container {
@@ -140,5 +237,42 @@ body {
     margin-bottom: 40px;
     max-width: 60%;
     text-align: center;
-    height: 75px;
+    height: fit-content;
+}
+
+#divider {
+    border: 2px solid black;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 25px;
+}
+
+#habits-section {
+    background-color: #d5b9b2;
+    width: 65%;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: auto;
+    border-radius: 20px;
+}
+
+#empty-msg {
+    margin-bottom: 20px;
+}
+
+#bottom-btns {
+    width: 70%;
+    height: 40px;
+    margin: auto;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#daily-habit-btn {
+    margin-right: -100px
+}
+
+#monthly-habit-btn {
+    margin-left: -100px;
 }

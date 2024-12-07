@@ -41,16 +41,17 @@ weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
 monthlyHabitBtn.addEventListener("click", showMonthlyHabits);
 createHabitButton.addEventListener("click", () => openHabitForm("add", ""));
 cancelBtn.addEventListener("click", closeHabitForm);
-clearBtn.addEventListener("click", clearList);
+//clearBtn.addEventListener("click", () => clearHabitsOfInterval("day"));
 deleteBtn.addEventListener("click", deleteHabit);
 
 newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 })
 
-updateHabitList();
+updateHabitList(habitsList);
 getRandomQuote();
 checkDate();
+showDailyHabits();
 
 function showDailyHabits(){
     dailyHabits.removeAttribute("hidden");
@@ -60,6 +61,8 @@ function showDailyHabits(){
     dailyHabitBtn.classList.add("selected-button");
     weeklyHabitBtn.classList.remove("selected-button");
     monthlyHabitBtn.classList.remove("selected-button");
+
+    clearBtn.onclick = () => clearHabitsOfInterval("day");
 
     currentHabitPage = "Daily";
 }
@@ -73,6 +76,8 @@ function showWeeklyHabits(){
     weeklyHabitBtn.classList.add("selected-button");
     monthlyHabitBtn.classList.remove("selected-button");
 
+    clearBtn.onclick = () => clearHabitsOfInterval("week");
+
     currentHabitPage = "Weekly";
 }
 
@@ -85,31 +90,35 @@ function showMonthlyHabits(){
     weeklyHabitBtn.classList.remove("selected-button");
     monthlyHabitBtn.classList.add("selected-button");
 
+    clearBtn.onclick = () => clearHabitsOfInterval("month");
+
     currentHabitPage = "Monthly";
 }
 
-function updateHabitList() {
+function updateHabitList(array) {
 
     dailyHabits.innerHTML = "";
     weeklyHabits.innerHTML = "";
     monthlyHabits.innerHTML = "";
+    const emptyMessageHTML = `<div id="empty-msg">No habits to display.</div>`
 
-    for(let i = 0; i < habitsList.length; i++) {
+    for(let i = 0; i < array.length; i++) {
+        let progressPercentage = (array[i].progress / array[i].frequency) * 100;
         let html = `
         <div class="single-habit-container">
-            <button class="complete-btn" onclick="increaseProgress('${habitsList[i].id}')"><img id="check-img" src="https://cdn0.iconfinder.com/data/icons/harmonicons-02/64/check-box-512.png"></button>
-            <div class="habit" id="${habitsList[i].id}">
-                <div class="habit-name habit-item">${habitsList[i].name}</div>
-                <div class="habit-frequency habit-item">${habitsList[i].frequency} / ${habitsList[i].interval}</div>
-                <div class="habit-progress habit-item">${habitsList[i].progress} / ${habitsList[i].frequency}</div>
+            <button class="complete-btn" onclick="increaseProgress('${array[i].id}')"></button>
+            <div class="habit" id="${array[i].id}" style="background: linear-gradient(90deg, #f5f0e6 ${progressPercentage}%, #ece2d0 0%);">
+                <div class="habit-name habit-item">${array[i].name}</div>
+                <div class="habit-frequency habit-item">${array[i].frequency} / ${array[i].interval} </div>
+                <div class="habit-progress habit-item">${array[i].progress} / ${array[i].frequency}</div>
             </div>
-            <button class="edit-btn" onclick="openHabitForm('edit', '${habitsList[i].id}')"><img id="edit-img" src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png"></button>
+            <button class="edit-btn" onclick="openHabitForm('edit', '${array[i].id}')"></button>
         </div>`;
         
-        if(habitsList[i].interval === "day") {
+        if(array[i].interval === "day") {
             dailyHabits.innerHTML += html;
         }
-        else if(habitsList[i].interval === "week") {
+        else if(array[i].interval === "week") {
             weeklyHabits.innerHTML += html;
         }
         else {
@@ -117,12 +126,25 @@ function updateHabitList() {
         }
 
     }
+
+    if(dailyHabits.innerHTML === "") {
+        dailyHabits.innerHTML = emptyMessageHTML;
+    }
+
+    if(weeklyHabits.innerHTML === "") {
+        weeklyHabits.innerHTML = emptyMessageHTML;
+    }
+
+    if(monthlyHabits.innerHTML === "") {
+        monthlyHabits.innerHTML = emptyMessageHTML;
+    }
+    
 }
 
 function addHabit() {
     deleteBtn.hidden = "true";
     
-    if(!newHabitNameInput.value || !newHabitFrequencyInput) {
+    if(!newHabitNameInput.value || !newHabitFrequencyInput.value) {
         alert("Please fill all input fields.");
         return;
     }   
@@ -142,14 +164,14 @@ function addHabit() {
     habitsList.push(habit);
     localStorage.setItem("data", JSON.stringify(habitsList));
 
-    updateHabitList();
+    updateHabitList(habitsList);
     closeHabitForm();
 }
 
 function clearCreateHabitForm() {
     newHabitNameInput.value = "";
     newHabitFrequencyInput.value = "";
-    newHabitIntervalInput.value = "day";
+    
 }
 
 function increaseProgress(id) {
@@ -168,8 +190,9 @@ function increaseProgress(id) {
     }
     
     habit.progress++;
+
     localStorage.setItem("data", JSON.stringify(habitsList));
-    updateHabitList();
+    updateHabitList(habitsList);
 }
 
 function openHabitForm(addOrEdit, id) {
@@ -179,7 +202,18 @@ function openHabitForm(addOrEdit, id) {
     if(addOrEdit === "add") {
         addHabitTitle.innerText = "Add Habit";
         addHabitBtn.innerText = "Add";
+        deleteBtn.hidden = "true";
         addHabitBtn.onclick = () => addHabit();
+
+        if(currentHabitPage === "Daily") {
+            newHabitIntervalInput.value = "day";
+        }
+        else if(currentHabitPage === "Weekly") {
+            newHabitIntervalInput.value = "week";
+        }
+        else {
+            newHabitIntervalInput.value = "month";
+        }
     }
     else if(addOrEdit === "edit") {
         newHabitNameInput.value = habit.name;
@@ -187,6 +221,7 @@ function openHabitForm(addOrEdit, id) {
         newHabitIntervalInput.value = habit.interval; 
         addHabitTitle.innerText = "Edit Habit";
         addHabitBtn.innerText = "Save";
+        deleteBtn.removeAttribute("hidden");
         addHabitBtn.onclick = () => editHabit(habit.id);
     }
 }
@@ -216,21 +251,35 @@ function findHabitById(id) {
 function clearList() {
     while(habitsList.length > 0) {
         habitsList.pop();
-        updateHabitList();
+        updateHabitList(habitsList);
     }
     idNumber = 0;
     localStorage.setItem("idNumber", JSON.stringify(idNumber));
     localStorage.setItem("data", JSON.stringify(habitsList));
 }
 
+function clearHabitsOfInterval(interval) {
+    let habitsToClear = findHabitsByInterval(interval);
+    for(let i = 0; i < habitsToClear.length; i++) {
+        let index = habitsList.indexOf(habitsToClear[i]);
+        habitsList.splice(index, 1);
+    }
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    updateHabitList(habitsList);
+}
+
 function editHabit(id) {
-    
+    if(!newHabitNameInput.value || !newHabitFrequencyInput.value) {
+        alert("Please fill all input fields.");
+        return;
+    }   
+
     findHabitById(id).name = newHabitNameInput.value;
     findHabitById(id).frequency = newHabitFrequencyInput.value;
     findHabitById(id).interval = newHabitIntervalInput.value;
     localStorage.setItem("data", JSON.stringify(habitsList));
     closeHabitForm();
-    updateHabitList();
+    updateHabitList(habitsList);
 }
 
 function deleteHabit(id) {
@@ -241,7 +290,7 @@ function deleteHabit(id) {
         idNumber = 0;
         localStorage.setItem("idNumber", JSON.stringify(idNumber));
     }
-    updateHabitList();
+    updateHabitList(habitsList);
     closeHabitForm();
 }
 
@@ -256,46 +305,45 @@ function findHabitsByInterval(interval) {
     return habits;
 }
 
+function findHabitsByName(name, array) {
+    
+}
+
 function checkDate() {
     let currentDate = new Date();
-    let storedDate = JSON.parse(localStorage.getItem("oldDate"));
+    currentDate.setHours(0, 0, 0, 0);
+    let storedDate = localStorage.getItem("oldDate");
     let oldDate = storedDate ? new Date(storedDate) : new Date();
-
-    console.log("Old oldDate: " + oldDate + " Old currentDate: " + currentDate);
-
-
-    //const startOfLastWeek = new Date(oldDate);
-    //startOfLastWeek.setDate(oldDate.getDate() - oldDate.getDay());
-    // //console.log(startOfLastWeek);
-    // const startOfThisWeek = new Date(startOfLastWeek);
-    // startOfThisWeek.setDate(startOfLastWeek.getDate() + 7);
-    // //console.log(startOfThisWeek);
+    oldDate.setHours(0, 0, 0, 0);
 
 
-    // let dailyHabits = findHabitsByInterval("day");
-    // let weeklyHabits = findHabitsByInterval("week");
-    // let monthlyHabits = findHabitsByInterval("month");
+    const startOfThisWeek = new Date(currentDate);
+    startOfThisWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
-    // if(currentDate > oldDate) {
-    //     for(let i = 0; i < dailyHabits.length; i++) {
-    //         resetProgress(dailyHabits[i].id);
-    //     }
-    // }
 
-    // if(currentDate > startOfThisWeek && oldDate < startOfThisWeek) {
-    //     for(let i = 0; i < weeklyHabits.length; i++) {
-    //         resetProgress(weeklyHabits[i].id);
-    //     }
-    // }
+    let dailyHabitsList = findHabitsByInterval("day");
+    let weeklyHabitsList = findHabitsByInterval("week");
+    let monthlyHabitsList = findHabitsByInterval("month");
 
-    // if(currentDate.getMonth() > oldDate.getMonth() || currentDate.getFullYear() > oldDate.getFullYear()) {
-    //     for(let i = 0; i < monthlyHabits.length; i++) {
-    //         resetProgress(monthlyHabits[i].id);
-    //     }
-    // }
+    if(currentDate > oldDate) {
+        for(let i = 0; i < dailyHabitsList.length; i++) {
+            resetProgress(dailyHabitsList[i].id);
+        }
+    }
 
-    localStorage.setItem("date", currentDate.toISOString());
-    // oldDateObject = JSON.parse(localStorage.getItem("date"));
+    if(currentDate > startOfThisWeek && oldDate < startOfThisWeek) {
+        for(let i = 0; i < weeklyHabitsList.length; i++) {
+            resetProgress(weeklyHabitsList[i].id);
+        }
+    }
+
+    if(currentDate.getMonth() > oldDate.getMonth() || currentDate.getFullYear() > oldDate.getFullYear()) {
+        for(let i = 0; i < monthlyHabitsList.length; i++) {
+            resetProgress(monthlyHabitsList[i].id);
+        }
+    }
+
+    localStorage.setItem("oldDate", currentDate);
     
 }
 
@@ -303,5 +351,8 @@ function resetProgress(id) {
     findHabitById(id).progress = 0;
     localStorage.setItem("data", JSON.stringify(habitsList));
     updateHabitList();
-    console.log(habitsList);
+}
+
+function confirmChanges() {
+
 }
