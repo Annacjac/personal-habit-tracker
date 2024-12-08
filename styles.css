@@ -45,11 +45,17 @@ body {
 #title {
     margin-top: 50px;
     font-size: 50px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 0;
 }
 
-#title, #quote {
+#title, #quote, #date {
     color: var(--color6);
+}
+
+#date {
+    margin-bottom: 40px;
+    font-size: 34px;
 }
 
 #habits-headers {

@@ -27,6 +27,7 @@ const confirmationPopup = document.getElementById("confirmation-prompt-backgroun
 const overallProgressBar = document.getElementById("overall-progress-bar");
 const progressBarText = document.getElementById("progress-bar-text");
 const themeDropdown = document.getElementById("theme-dropdown");
+const dateText = document.getElementById("date");
 const colorSchemes = [{
         name: "Rose",
         id: 0,
@@ -113,13 +114,15 @@ newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 })
 
+themeDropdown.value = Number(currentTheme.id);
+dateText.innerText = getFormattedDate();
+
 confirmationPopup.hidden = "true";
 updateHabitList(habitsList);
 getRandomQuote();
 checkDate();
 showDailyHabits();
 changeColorScheme(currentTheme);
-themeDropdown.value = Number(currentTheme.id);
 
 function showDailyHabits(){
     currentHabitPage = "Daily";
@@ -588,3 +591,13 @@ function changeColorScheme(colorScheme) {
     localStorage.setItem("theme", JSON.stringify(colorScheme));
     
 }
+
+function getFormattedDate() {
+    let date = new Date();
+    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+    let dateText = `${month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    return dateText;
+}
+
+console.log(getFormattedDate());
