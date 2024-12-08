@@ -9,6 +9,7 @@ const deleteBtn = document.getElementById("delete-btn");
 const searchBtn = document.getElementById("search-btn");
 const yesBtn = document.getElementById("yes-btn");
 const noBtn = document.getElementById("no-btn");
+const changeThemeBtn = document.getElementById("theme-btn");
 
 const dailyHabits = document.getElementById("daily-habits");
 const weeklyHabits = document.getElementById("weekly-habits");
@@ -25,6 +26,62 @@ const confirmationPrompt = document.getElementById("prompt");
 const confirmationPopup = document.getElementById("confirmation-prompt-background");
 const overallProgressBar = document.getElementById("overall-progress-bar");
 const progressBarText = document.getElementById("progress-bar-text");
+const themeDropdown = document.getElementById("theme-dropdown");
+const colorSchemes = [{
+        name: "Rose",
+        id: 0,
+        color1: "#6d2e46",
+        color2: "rgba(109, 46, 70, .75)",
+        color3: "#a26769",
+        color4: "rgba(213, 185, 178, 1)",
+        color5: "#cebebe",
+        color6: "#ece2d0",
+        color7: "#fdfded;"
+    },
+    {
+        name: "Sky",
+        id: 1,
+        color1: "#03045e",
+        color2: "rgba(3, 4, 94, .75)",
+        color3: "#0077b6",
+        color4: "rgb(0, 180, 216, 1)",
+        color5: "#90e0ef",
+        color6: "#caf0f8",
+        color7: "#fdfded;"
+    },
+    {
+        name: "Magma",
+        id: 2,
+        color1: "#6a040f",
+        color2: "rgba(106, 4, 15, .75)",
+        color3: "#d00000",
+        color4: "rgb(232, 93, 4, 1)",
+        color5: "#f48c06",
+        color6: "#ffba08",
+        color7: "#ffe854"
+    },
+    {
+        name: "Forest",
+        id: 3,
+        color1: "#1b4332",
+        color2: "rgba(27, 67, 50, .75)",
+        color3: "#40916c",
+        color4: "rgb(116, 198, 157, 1)",
+        color5: "#95d5b2",
+        color6: "#b7e4c7",
+        color7: "#d8f3dc"
+    },
+    {
+        name: "Greyscale",
+        id: 4,
+        color1: "#212529",
+        color2: "rgba(33, 37, 41, .75)",
+        color3: "#6c757d",
+        color4: "rgb(173, 181, 189, 1)",
+        color5: "#ced4da",
+        color6: "#dee2e6",
+        color7: "#fdfdfd"
+    }];
 
 const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." \n– Jim Ryun',
 '"We are what we repeatedly do. Excellence, then, is not an act, but a habit." \n– Aristotle',
@@ -42,17 +99,16 @@ const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going
 let habitsList = JSON.parse(localStorage.getItem("data")) || [];
 let currentHabitPage = "Daily";
 let idNumber = JSON.parse(localStorage.getItem("idNumber")) || 0;
-
+let currentTheme = JSON.parse(localStorage.getItem("theme")) || colorSchemes[0];
 
 dailyHabitBtn.addEventListener("click", showDailyHabits);
 weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
 monthlyHabitBtn.addEventListener("click", showMonthlyHabits);
 createHabitButton.addEventListener("click", () => openHabitForm("add", ""));
 cancelBtn.addEventListener("click", () => confirmChanges("cancel", ""));
-//clearBtn.addEventListener("click", () => clearHabitsOfInterval("day"));
 searchBtn.addEventListener("click", () => searchHabits(searchBar.value));
 noBtn.addEventListener("click", noButton);
-
+changeThemeBtn.addEventListener("click", () => changeColorScheme(colorSchemes[themeDropdown.value]));
 newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 })
@@ -62,6 +118,8 @@ updateHabitList(habitsList);
 getRandomQuote();
 checkDate();
 showDailyHabits();
+changeColorScheme(currentTheme);
+themeDropdown.value = Number(currentTheme.id);
 
 function showDailyHabits(){
     currentHabitPage = "Daily";
@@ -136,11 +194,9 @@ function updateHabitList(array) {
         let html = `
         <div class="single-habit-container">
             <button class="complete-btn" onclick="increaseProgress('${array[i].id}')"></button>
-            <div class="habit" id="${array[i].id}" style="background: linear-gradient(90deg, #f5f0e6 ${progressPercentage}%, #ece2d0 0%);">
+            <div class="habit" id="${array[i].id}" style="background: linear-gradient(90deg, var(--color7) ${progressPercentage}%, var(--color6) 0%);">
                 <div class="habit-name habit-item">${array[i].name}</div>
-                <div class="habit-frequency habit-item">${array[i].frequency} / ${array[i].interval} </div>
-                
-            `;
+                <div class="habit-frequency habit-item">${array[i].frequency} / ${array[i].interval} </div>`;
 
         if(array[i].progress > array[i].frequency) {
             html += `<div class="habit-progress habit-item" id="progress${i}">${array[i].frequency} / ${array[i].frequency}</div>`;
@@ -187,7 +243,7 @@ function updateHabitList(array) {
         else {
             progressBarText.innerText = `${dailyOverallProgress} / ${dailyOverallGoal} habits completed`;
         }
-        overallProgressBar.style.background = `linear-gradient(90deg, #f5f0e6 ${dailyProgressPercentage}%, #cebebe 0%)`;
+        overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${dailyProgressPercentage}%, var(--color6) 0%)`;
     }
     else if(currentHabitPage === "Weekly") {
         let weeklyProgressPercentage = (weeklyOverallProgress / weeklyOverallGoal) * 100;
@@ -201,7 +257,7 @@ function updateHabitList(array) {
         else{
             progressBarText.innerText = `${weeklyOverallProgress} / ${weeklyOverallGoal} habits completed`;
         }
-        overallProgressBar.style.background = `linear-gradient(90deg, #f5f0e6 ${weeklyProgressPercentage}%, #cebebe 0%)`;
+        overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${weeklyProgressPercentage}%, var(--color6) 0%)`;
     }
     else if(currentHabitPage === "Monthly") {
         let monthlyProgressPercentage = (monthlyOverallProgress / monthlyOverallGoal) * 100;
@@ -215,7 +271,7 @@ function updateHabitList(array) {
         else{
             progressBarText.innerText = `${monthlyOverallProgress} / ${monthlyOverallGoal} habits completed`;
         }
-        overallProgressBar.style.background = `linear-gradient(90deg, #f5f0e6 ${monthlyProgressPercentage}%, #cebebe 0%)`;
+        overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${monthlyProgressPercentage}%, var(--color6) 0%)`;
     }
 
     if(dailyHabits.innerHTML === "") {
@@ -517,4 +573,18 @@ function yesButton(action, interval, id) {
 function noButton() {
     confirmationPopup.hidden = "true";
     window.onscroll(() => {});
+}
+
+function changeColorScheme(colorScheme) {
+
+    document.documentElement.style.setProperty("--color1", colorScheme.color1);
+    document.documentElement.style.setProperty("--color2", colorScheme.color2);
+    document.documentElement.style.setProperty("--color3", colorScheme.color3);
+    document.documentElement.style.setProperty("--color4", colorScheme.color4);
+    document.documentElement.style.setProperty("--color5", colorScheme.color5);
+    document.documentElement.style.setProperty("--color6", colorScheme.color6);
+    document.documentElement.style.setProperty("--color7", colorScheme.color7);
+
+    localStorage.setItem("theme", JSON.stringify(colorScheme));
+    
 }

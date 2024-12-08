@@ -1,5 +1,26 @@
-.root {
-    --greyPurple: #6d6875;
+:root {
+    --darkPurple: #6d2e46;
+    --darkPurpleTransparent: rgba(109, 46, 70, .75);
+    --dustyRose: #a26769;
+    --lightPurple: rgba(213, 185, 178, 1);
+    --greyPurple: #cebebe;
+    --cream: #ece2d0;
+    --offWhite: #fdfded;
+
+    --darkBlue: #03045e;
+    --darkBlueTransparent: rgba(3, 4, 94, .75);
+    --mediumBlue: #0077b6;
+    --lightBlue: rgb(0, 180, 216, 1);
+    --skyBlue: #90e0ef;
+    --whiteBlue: #caf0f8;
+
+    --color1: var(--darkPurple);
+    --color2: var(--darkPurpleTransparent);
+    --color3: var(--dustyRose);
+    --color4: var(--lightPurple);
+    --color5: var(--greyPurple);
+    --color6: var(--cream);
+    --color7: var(--offWhite);
 }
 
 body {
@@ -8,12 +29,12 @@ body {
     max-width: 750px;
     margin: auto;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: #6d2e46;
+    background-color: var(--color1);
     
 }
 
 #main {
-    background-color: #a26769;
+    background-color: var(--color3);
     width: 100%;
     margin: auto;
     height: fit-content;
@@ -28,7 +49,7 @@ body {
 }
 
 #title, #quote {
-    color: #ece2d0;
+    color: var(--color6);
 }
 
 #habits-headers {
@@ -60,7 +81,7 @@ body {
     margin:auto;
     margin-bottom: 30px;
     color: white;
-    background-color: #cebebe;
+    background-color: var(--color5);
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 }
@@ -113,7 +134,7 @@ body {
     height: fit-content;
     padding: 40px;
     margin: auto;
-    background-color: #d5b9b2;
+    background-color: var(--color4);
     border-radius: 30px;
 }
 
@@ -131,14 +152,14 @@ body {
     height: 25px;
     border: none;
     border-radius: 15px;
-    background-color: #fdf8ef;
+    background-color: var(--color7);
 }
 
 #interval-dropdown {
     height: 30px;
     border: none;
     border-radius: 15px;
-    background-color: #fdf8ef;
+    background-color: var(--color7);
 }
 
 #add-btn, #cancel-btn  {
@@ -149,7 +170,7 @@ body {
     border-radius: 20px;
     font-weight: bold;
     font-size: 16px;
-    background-color: #fdf8ef;
+    background-color: var(--color7);
 }
 
 #name-input {
@@ -165,7 +186,7 @@ body {
     width: 49%;
     height: 40px;
     border-radius: 15px;
-    background-color: #cebebe; 
+    background-color: var(--color5); 
     border: none;
     font-weight: bold;
     font-size: 16px;
@@ -190,7 +211,7 @@ body {
     width: 55px;
     height: 55px;
     min-height: 55px;
-    background-color: #d5b9b2;
+    background-color: var(--color4);
 }
 
 .edit-btn {
@@ -209,7 +230,7 @@ body {
 
 #search-btn {
     border: none;
-    background-color: #cebebe;
+    background-color: var(--color5);
     width: 12%;
     height: 43px;
     font-weight: bold;
@@ -223,7 +244,7 @@ body {
     width: 55%;
     height: 40px;
     margin-right: 5px;
-    background-color: #ece2d0;
+    background-color: var(--color6);
     border-radius: 15px;
     font-size: 14px;
 }
@@ -251,7 +272,7 @@ body {
 }
 
 #habits-section {
-    background-color: #d5b9b2;
+    background-color: var(--color4);
     width: 65%;
     padding: 5px;
     padding-left: 15px;
@@ -281,7 +302,7 @@ body {
 }
 
 #confirmation-prompt {
-    background-color: rgba(213, 185, 178, 1);
+    background-color: var(--color4);
     margin: auto;
     margin-top: 35vh;
     max-width: 300px;;
@@ -295,7 +316,7 @@ body {
 }
 
 #confirmation-prompt-background {
-    background: rgba(109, 46, 70, .75);
+    background: var(--color2);
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -315,11 +336,11 @@ body {
     border-radius: 20px;
     font-weight: bold;
     font-size: 16px;
-    background-color: #fdf8ef;
+    background-color: var(--color7);
 }
 
 #overall-progress-bar {
-    background-color: #ece2d0;
+    background-color: var(--color6);
     border-radius: 20px;
     width: 70%;
     height: 30px;
@@ -336,9 +357,37 @@ body {
 }
 
 #progress-bar-title {
-    color: #ece2d0;
+    color: var(--color6);
     font-weight: bold;
     font-size: 20px;
     margin-top: 20px;
     margin-bottom: -5px;
+}
+
+#theme-dropdown {
+    margin-top: 20px;
+    border-radius: 20px;
+    text-align: center;
+    height:  30px; 
+    width: 120px;
+    background-color: var(--color5);
+    border: none;
+}
+
+#theme-btn {
+    color: var(--color6);
+    background: none;
+    border: none;
+}
+
+#theme-btn:hover {
+    color: var(--color7)
+}
+
+#theme-btn:active {
+    color: var(--color5);
+}
+
+::placeholder {
+    color: black;
 }
