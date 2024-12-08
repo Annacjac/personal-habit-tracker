@@ -37,7 +37,7 @@ const colorSchemes = [{
         color4: "rgba(213, 185, 178, 1)",
         color5: "#cebebe",
         color6: "#ece2d0",
-        color7: "#fdfded;"
+        color7: "#fdfded"
     },
     {
         name: "Sky",
@@ -48,7 +48,7 @@ const colorSchemes = [{
         color4: "rgb(0, 180, 216, 1)",
         color5: "#90e0ef",
         color6: "#caf0f8",
-        color7: "#fdfded;"
+        color7: "#fdfded"
     },
     {
         name: "Magma",
@@ -109,10 +109,10 @@ createHabitButton.addEventListener("click", () => openHabitForm("add", ""));
 cancelBtn.addEventListener("click", () => confirmChanges("cancel", ""));
 searchBtn.addEventListener("click", () => searchHabits(searchBar.value));
 noBtn.addEventListener("click", noButton);
-changeThemeBtn.addEventListener("click", () => changeColorScheme(colorSchemes[themeDropdown.value]));
-newHabitForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-})
+themeDropdown.addEventListener("change", () => changeColorScheme(colorSchemes[themeDropdown.value]))
+// newHabitForm.addEventListener("submit", (e) => {
+//     e.preventDefault();
+// })
 
 themeDropdown.value = Number(currentTheme.id);
 dateText.innerText = getFormattedDate();
@@ -479,11 +479,14 @@ function searchHabits(name) {
 
 function checkDate() {
     let currentDate = new Date();
+    //let currentDate = new Date("2024-12-08");
     currentDate.setHours(0, 0, 0, 0);
     let storedDate = localStorage.getItem("oldDate");
     let oldDate = storedDate ? new Date(storedDate) : new Date();
+    //let oldDate = new Date("2024-12-07");
     oldDate.setHours(0, 0, 0, 0);
 
+    console.log(currentDate > oldDate);
 
     const startOfThisWeek = new Date(currentDate);
     startOfThisWeek.setDate(currentDate.getDate() - currentDate.getDay());

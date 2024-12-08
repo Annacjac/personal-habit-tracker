@@ -1,26 +1,11 @@
 :root {
-    --darkPurple: #6d2e46;
-    --darkPurpleTransparent: rgba(109, 46, 70, .75);
-    --dustyRose: #a26769;
-    --lightPurple: rgba(213, 185, 178, 1);
-    --greyPurple: #cebebe;
-    --cream: #ece2d0;
-    --offWhite: #fdfded;
-
-    --darkBlue: #03045e;
-    --darkBlueTransparent: rgba(3, 4, 94, .75);
-    --mediumBlue: #0077b6;
-    --lightBlue: rgb(0, 180, 216, 1);
-    --skyBlue: #90e0ef;
-    --whiteBlue: #caf0f8;
-
-    --color1: var(--darkPurple);
-    --color2: var(--darkPurpleTransparent);
-    --color3: var(--dustyRose);
-    --color4: var(--lightPurple);
-    --color5: var(--greyPurple);
-    --color6: var(--cream);
-    --color7: var(--offWhite);
+    --color1: #6d2e46;
+    --color2: rgba(109, 46, 70, .75);
+    --color3: #a26769;
+    --color4: rgba(213, 185, 178, 1);
+    --color5: #cebebe;
+    --color6: #ece2d0;
+    --color7: #fdfded;
 }
 
 body {
@@ -55,6 +40,7 @@ body {
 
 #date {
     margin-bottom: 40px;
+    margin-top: 10px;
     font-size: 34px;
 }
 
@@ -380,10 +366,11 @@ body {
     border: none;
 }
 
-#theme-btn {
+#theme-label {
     color: var(--color6);
     background: none;
     border: none;
+    margin-right: 5px;
 }
 
 #theme-btn:hover {
