@@ -64,9 +64,9 @@
     <form id="new-habit" hidden>
         <h3 id="add-habit-title">Add Habit</h3>
         <span class="field-name">Habit Name:</span>
-        <input class ="input-field" id="name-input"><br />
+        <input class ="input-field" id="name-input" required><br />
         <span class="field-name">Frequency: </span>
-        <input class ="input-field" id="frequency-input" type="number"> <span class="field-name">per</span>
+        <input class ="input-field" id="frequency-input" type="number" pattern="\d*" required> <span class="field-name">per</span>
         <select id="interval-dropdown">
             <option value="day">Day</option>
             <option value="week">Week</option>

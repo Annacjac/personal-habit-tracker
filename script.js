@@ -110,9 +110,9 @@ cancelBtn.addEventListener("click", () => confirmChanges("cancel", ""));
 searchBtn.addEventListener("click", () => searchHabits(searchBar.value));
 noBtn.addEventListener("click", noButton);
 themeDropdown.addEventListener("change", () => changeColorScheme(colorSchemes[themeDropdown.value]))
-// newHabitForm.addEventListener("submit", (e) => {
-//     e.preventDefault();
-// })
+newHabitForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+})
 
 themeDropdown.value = Number(currentTheme.id);
 dateText.innerText = getFormattedDate();
@@ -294,16 +294,14 @@ function updateHabitList(array) {
 function addHabit() {
     deleteBtn.hidden = "true";
     
-    if(!newHabitNameInput.value || !newHabitFrequencyInput.value) {
-        alert("Please fill all input fields.");
+    if(!newHabitNameInput.value || !newHabitFrequencyInput.value || newHabitFrequencyInput.value.indexOf(".") !== -1) {
         return;
-    }   
-
+    }  
     
     let habit = {
         id: `habit${idNumber}`,
         name: newHabitNameInput.value,
-        frequency: newHabitFrequencyInput.value,
+        frequency: Math.floor(newHabitFrequencyInput.value),
         interval: newHabitIntervalInput.value,
         progress: 0
     }
@@ -602,5 +600,3 @@ function getFormattedDate() {
     let dateText = `${month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     return dateText;
 }
-
-console.log(getFormattedDate());
