@@ -16,7 +16,6 @@ body {
     background-color: #a26769;
     width: 100%;
     margin: auto;
-    margin-left: -15px;
     height: fit-content;
     padding-bottom: 50px;
     border-radius: 30px;
@@ -282,9 +281,9 @@ body {
 }
 
 #confirmation-prompt {
-    background-color: #d5b9b2;
+    background-color: rgba(213, 185, 178, 1);
     margin: auto;
-    margin-top: 50px;
+    margin-top: 35vh;
     max-width: 300px;;
     height: fit-content;
     padding-top: 20px;
@@ -296,13 +295,13 @@ body {
 }
 
 #confirmation-prompt-background {
-    background: #6d2e46;
-    position: absolute;
+    background: rgba(109, 46, 70, .75);
+    position: fixed;
     z-index: 1000;
     left: 0;
     right: 0;
     bottom: 0;
-    top: 200px;
+    top: 0;
 }
 
 #prompt {
@@ -317,4 +316,29 @@ body {
     font-weight: bold;
     font-size: 16px;
     background-color: #fdf8ef;
+}
+
+#overall-progress-bar {
+    background-color: #ece2d0;
+    border-radius: 20px;
+    width: 70%;
+    height: 30px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#progress-bar-text {
+    height: fit-content;
+    width: fit-content;
+    margin: auto;
+    line-height: 2;
+}
+
+#progress-bar-title {
+    color: #ece2d0;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: -5px;
 }

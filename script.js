@@ -23,20 +23,22 @@ const quote = document.getElementById("quote");
 const searchBar = document.getElementById("search-bar");
 const confirmationPrompt = document.getElementById("prompt");
 const confirmationPopup = document.getElementById("confirmation-prompt-background");
+const overallProgressBar = document.getElementById("overall-progress-bar");
+const progressBarText = document.getElementById("progress-bar-text");
 
-const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." – Jim Ryun',
-'"We are what we repeatedly do. Excellence, then, is not an act, but a habit." – Aristotle',
-'"Success is the product of daily habits, not once-in-a-lifetime transformations." – James Clear',
-'"Small disciplines repeated with consistency every day lead to great achievements gained slowly over time." – John C. Maxwell',
+const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." \n– Jim Ryun',
+'"We are what we repeatedly do. Excellence, then, is not an act, but a habit." \n– Aristotle',
+'"Success is the product of daily habits, not once-in-a-lifetime transformations." \n– James Clear',
+'"Small disciplines repeated with consistency every day lead to great achievements gained slowly over time." \n– John C. Maxwell',
 '"Your habits will determine your future." – Jack Canfield',
-'"First forget inspiration. Habit is more dependable. Habit will sustain you whether you’re inspired or not." – Octavia Butler',
-'"Discipline is choosing between what you want now and what you want most." – Abraham Lincoln',
+'"First forget inspiration. Habit is more dependable. Habit will sustain you whether you’re inspired or not." \n– Octavia Butler',
+'"Discipline is choosing between what you want now and what you want most." \n– Abraham Lincoln',
 '"The secret of your future is hidden in your daily routine." – Mike Murdock',
-'"You’ll never change your life until you change something you do daily. The secret of your success is found in your daily routine." – John C. Maxwell',
-'"Good habits are worth being fanatical about." – John Irving',
-'"It’s not what we do once in a while that shapes our lives, but what we do consistently." – Tony Robbins',
-'"The difference between who you are and who you want to be is what you do." – Charles Duhigg',
-'"Every action you take is a vote for the type of person you wish to become." – James Clear'];
+'"You’ll never change your life until you change something you do daily. The secret of your success is found in your daily routine." \n– John C. Maxwell',
+'"Good habits are worth being fanatical about." \n– John Irving',
+'"It’s not what we do once in a while that shapes our lives, but what we do consistently." \n– Tony Robbins',
+'"The difference between who you are and who you want to be is what you do." \n– Charles Duhigg',
+'"Every action you take is a vote for the type of person you wish to become." \n– James Clear'];
 let habitsList = JSON.parse(localStorage.getItem("data")) || [];
 let currentHabitPage = "Daily";
 let idNumber = JSON.parse(localStorage.getItem("idNumber")) || 0;
@@ -62,6 +64,7 @@ checkDate();
 showDailyHabits();
 
 function showDailyHabits(){
+    currentHabitPage = "Daily";
     dailyHabits.removeAttribute("hidden");
     weeklyHabits.hidden = "true";
     monthlyHabits.hidden = "true";
@@ -75,10 +78,11 @@ function showDailyHabits(){
 
     clearBtn.onclick = () => confirmChanges("clear", "day");
 
-    currentHabitPage = "Daily";
+    
 }
 
 function showWeeklyHabits(){
+    currentHabitPage = "Weekly";
     dailyHabits.hidden = "true";
     weeklyHabits.removeAttribute("hidden");
     monthlyHabits.hidden = "true";
@@ -92,10 +96,11 @@ function showWeeklyHabits(){
 
     clearBtn.onclick = () => confirmChanges("clear", "week");
 
-    currentHabitPage = "Weekly";
+    
 }
 
 function showMonthlyHabits(){
+    currentHabitPage = "Monthly";
     dailyHabits.hidden = "true";
     weeklyHabits.hidden = "true";
     monthlyHabits.removeAttribute("hidden");
@@ -107,9 +112,9 @@ function showMonthlyHabits(){
     searchBar.value = "";
     updateHabitList(habitsList);
 
-    clearBtn.onclick = () => confirmChanges("clear", "week");
+    clearBtn.onclick = () => confirmChanges("clear", "month");
 
-    currentHabitPage = "Monthly";
+    
 }
 
 function updateHabitList(array) {
@@ -118,6 +123,13 @@ function updateHabitList(array) {
     weeklyHabits.innerHTML = "";
     monthlyHabits.innerHTML = "";
     const emptyMessageHTML = `<div id="empty-msg">No habits to display.</div>`
+    let dailyOverallGoal = 0;
+    let dailyOverallProgress = 0;
+    let weeklyOverallGoal = 0;
+    let weeklyOverallProgress = 0;
+    let monthlyOverallGoal = 0;
+    let monthlyOverallProgress = 0;
+
 
     for(let i = 0; i < array.length; i++) {
         let progressPercentage = (array[i].progress / array[i].frequency) * 100;
@@ -127,21 +139,83 @@ function updateHabitList(array) {
             <div class="habit" id="${array[i].id}" style="background: linear-gradient(90deg, #f5f0e6 ${progressPercentage}%, #ece2d0 0%);">
                 <div class="habit-name habit-item">${array[i].name}</div>
                 <div class="habit-frequency habit-item">${array[i].frequency} / ${array[i].interval} </div>
-                <div class="habit-progress habit-item">${array[i].progress} / ${array[i].frequency}</div>
-            </div>
+                
+            `;
+
+        if(array[i].progress > array[i].frequency) {
+            html += `<div class="habit-progress habit-item" id="progress${i}">${array[i].frequency} / ${array[i].frequency}</div>`;
+        }
+        else {
+            html += `<div class="habit-progress habit-item" id="progress${i}">${array[i].progress} / ${array[i].frequency}</div>`;
+        }
+
+        html += `</div>
             <button class="edit-btn" onclick="openHabitForm('edit', '${array[i].id}')"></button>
         </div>`;
         
         if(array[i].interval === "day") {
             dailyHabits.innerHTML += html;
+            dailyOverallGoal += Number(array[i].frequency);
+            dailyOverallProgress += Number(array[i].progress);
         }
         else if(array[i].interval === "week") {
             weeklyHabits.innerHTML += html;
+            weeklyOverallGoal += Number(array[i].frequency);
+            weeklyOverallProgress += Number(array[i].progress);
         }
-        else {
+        else if(array[i].interval === "month"){
             monthlyHabits.innerHTML += html;
+            monthlyOverallGoal += Number(array[i].frequency);
+            monthlyOverallProgress += Number(array[i].progress);
         }
 
+        if(array[i].progress > array[i].interval){
+            document.getElementById()
+        }
+
+    }
+
+    if(currentHabitPage === "Daily") {
+        let dailyProgressPercentage = (dailyOverallProgress / dailyOverallGoal) * 100;
+        if(dailyProgressPercentage >= 100 && (dailyOverallGoal !== 0 && dailyOverallProgress !== 0)) {
+            progressBarText.innerText = `You have completed your daily habit goal!`;
+        }
+        else if(dailyOverallGoal === 0 && dailyOverallProgress === 0) {
+            progressBarText.innerText = "You currently have no habit goals for today."
+            overallProgressBar.style.background = "#cebebe";
+        }
+        else {
+            progressBarText.innerText = `${dailyOverallProgress} / ${dailyOverallGoal} habits completed`;
+        }
+        overallProgressBar.style.background = `linear-gradient(90deg, #f5f0e6 ${dailyProgressPercentage}%, #cebebe 0%)`;
+    }
+    else if(currentHabitPage === "Weekly") {
+        let weeklyProgressPercentage = (weeklyOverallProgress / weeklyOverallGoal) * 100;
+        if(weeklyProgressPercentage >= 100 && (weeklyOverallGoal !== 0 && weeklyOverallProgress !== 0)) {
+            progressBarText.innerText = "You have completed your weekly habit goal!"
+        }
+        else if(weeklyOverallGoal === 0 && weeklyOverallProgress === 0) {
+            progressBarText.innerText = "You currently have no habit goals for this week."
+            overallProgressBar.style.background = "#cebebe";
+        }
+        else{
+            progressBarText.innerText = `${weeklyOverallProgress} / ${weeklyOverallGoal} habits completed`;
+        }
+        overallProgressBar.style.background = `linear-gradient(90deg, #f5f0e6 ${weeklyProgressPercentage}%, #cebebe 0%)`;
+    }
+    else if(currentHabitPage === "Monthly") {
+        let monthlyProgressPercentage = (monthlyOverallProgress / monthlyOverallGoal) * 100;
+        if(monthlyProgressPercentage >= 100 && (monthlyOverallGoal !== 0 && monthlyOverallProgress !== 0)) {
+            progressBarText.innerText = "You have completed your monthly habit goal!"
+        }
+        else if(monthlyOverallGoal === 0 && monthlyOverallProgress === 0) {
+            progressBarText.innerText = "You currently have no habit goals for this month."
+            overallProgressBar.style.background = "#cebebe";
+        }
+        else{
+            progressBarText.innerText = `${monthlyOverallProgress} / ${monthlyOverallGoal} habits completed`;
+        }
+        overallProgressBar.style.background = `linear-gradient(90deg, #f5f0e6 ${monthlyProgressPercentage}%, #cebebe 0%)`;
     }
 
     if(dailyHabits.innerHTML === "") {
@@ -202,7 +276,6 @@ function increaseProgress(id) {
     }
 
     if(Number(habit.progress) === Number(habit.frequency)){
-        alert("You have already reached your goal for this habit!");
         return;
     }
     
@@ -391,6 +464,7 @@ function resetProgress(id) {
 
 
 function confirmChanges(action, interval, id) {
+    document.getElementsByTagName("body").overflow
     if(action === "clear") {
         if(findHabitsByInterval(interval).length === 0){
             return;
@@ -429,7 +503,6 @@ function yesButton(action, interval, id) {
     confirmationPopup.hidden = "true";
     if(action === "clear") {
         clearHabitsOfInterval(interval);
-        
     }
 
     else if(action === "delete") {
@@ -438,10 +511,10 @@ function yesButton(action, interval, id) {
 
     else if(action === "cancel") {
         closeHabitForm();
-
     }
 }
 
 function noButton() {
     confirmationPopup.hidden = "true";
+    window.onscroll(() => {});
 }
