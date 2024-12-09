@@ -89,19 +89,19 @@ const colorSchemes = [{
         color8: "#dde2e7"
     }];
 
-const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." \n\n– Jim Ryun',
-'"We are what we repeatedly do. Excellence, then, is not an act, but a habit." \n\n– Aristotle',
-'"Success is the product of daily habits, not once-in-a-lifetime transformations." \n\n– James Clear',
-'"Small disciplines repeated with consistency every day lead to great achievements gained slowly over time." \n\n– John C. Maxwell',
-'"Your habits will determine your future." \n\n– Jack Canfield',
-'"First forget inspiration. Habit is more dependable. Habit will sustain you whether you’re inspired or not." \n\n– Octavia Butler',
-'"Discipline is choosing between what you want now and what you want most." \n\n– Abraham Lincoln',
-'"The secret of your future is hidden in your daily routine." \n\n– Mike Murdock',
-'"You’ll never change your life until you change something you do daily. The secret of your success is found in your daily routine." \n\n– John C. Maxwell',
-'"Good habits are worth being fanatical about." \n\n– John Irving',
-'"It’s not what we do once in a while that shapes our lives, but what we do consistently." \n\n– Tony Robbins',
-'"The difference between who you are and who you want to be is what you do." \n\n– Charles Duhigg',
-'"Every action you take is a vote for the type of person you wish to become." \n\n– James Clear'];
+const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." \n– Jim Ryun',
+'"We are what we repeatedly do. Excellence, then, is not an act, but a habit." \n– Aristotle',
+'"Success is the product of daily habits, not once-in-a-lifetime transformations." \n– James Clear',
+'"Small disciplines repeated with consistency every day lead to great achievements gained slowly over time." \n– John C. Maxwell',
+'"Your habits will determine your future." – Jack Canfield',
+'"First forget inspiration. Habit is more dependable. Habit will sustain you whether you’re inspired or not." \n– Octavia Butler',
+'"Discipline is choosing between what you want now and what you want most." \n– Abraham Lincoln',
+'"The secret of your future is hidden in your daily routine." – Mike Murdock',
+'"You’ll never change your life until you change something you do daily. The secret of your success is found in your daily routine." \n– John C. Maxwell',
+'"Good habits are worth being fanatical about." \n– John Irving',
+'"It’s not what we do once in a while that shapes our lives, but what we do consistently." \n– Tony Robbins',
+'"The difference between who you are and who you want to be is what you do." \n– Charles Duhigg',
+'"Every action you take is a vote for the type of person you wish to become." \n– James Clear'];
 let habitsList = JSON.parse(localStorage.getItem("data")) || [];
 let currentHabitPage = "Daily";
 let idNumber = JSON.parse(localStorage.getItem("idNumber")) || 0;
