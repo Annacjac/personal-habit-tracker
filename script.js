@@ -238,43 +238,49 @@ function updateHabitList(array) {
         let dailyProgressPercentage = (dailyOverallProgress / dailyOverallGoal) * 100;
         if(dailyProgressPercentage >= 100 && (dailyOverallGoal !== 0 && dailyOverallProgress !== 0)) {
             progressBarText.innerText = `You have completed your daily habit goal!`;
+            overallProgressBar.style.background = "var(--color7)";
         }
         else if(dailyOverallGoal === 0 && dailyOverallProgress === 0) {
             progressBarText.innerText = "You currently have no habit goals for today."
-            overallProgressBar.style.background = "#cebebe";
+            overallProgressBar.style.backgroundColor = "var(--color6";
         }
         else {
             progressBarText.innerText = `${dailyOverallProgress} / ${dailyOverallGoal} habits completed`;
+            overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${dailyProgressPercentage}%, var(--color6) 0%)`;
         }
-        overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${dailyProgressPercentage}%, var(--color6) 0%)`;
+        
     }
     else if(currentHabitPage === "Weekly") {
         let weeklyProgressPercentage = (weeklyOverallProgress / weeklyOverallGoal) * 100;
         if(weeklyProgressPercentage >= 100 && (weeklyOverallGoal !== 0 && weeklyOverallProgress !== 0)) {
             progressBarText.innerText = "You have completed your weekly habit goal!"
+            overallProgressBar.style.background = "var(--color7)";
         }
         else if(weeklyOverallGoal === 0 && weeklyOverallProgress === 0) {
             progressBarText.innerText = "You currently have no habit goals for this week."
-            overallProgressBar.style.background = "#cebebe";
+            overallProgressBar.style.background = "var(--color6)";
         }
         else{
             progressBarText.innerText = `${weeklyOverallProgress} / ${weeklyOverallGoal} habits completed`;
+            overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${weeklyProgressPercentage}%, var(--color6) 0%)`;
         }
-        overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${weeklyProgressPercentage}%, var(--color6) 0%)`;
+       
     }
     else if(currentHabitPage === "Monthly") {
         let monthlyProgressPercentage = (monthlyOverallProgress / monthlyOverallGoal) * 100;
         if(monthlyProgressPercentage >= 100 && (monthlyOverallGoal !== 0 && monthlyOverallProgress !== 0)) {
             progressBarText.innerText = "You have completed your monthly habit goal!"
+            overallProgressBar.style.background = "var(--color7)";
         }
         else if(monthlyOverallGoal === 0 && monthlyOverallProgress === 0) {
             progressBarText.innerText = "You currently have no habit goals for this month."
-            overallProgressBar.style.background = "#cebebe";
+            overallProgressBar.style.background = "var(--color6)";
         }
         else{
             progressBarText.innerText = `${monthlyOverallProgress} / ${monthlyOverallGoal} habits completed`;
+            overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${monthlyProgressPercentage}%, var(--color6) 0%)`;
         }
-        overallProgressBar.style.background = `linear-gradient(90deg, var(--color7) ${monthlyProgressPercentage}%, var(--color6) 0%)`;
+        
     }
 
     if(dailyHabits.innerHTML === "") {
