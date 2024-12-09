@@ -37,7 +37,8 @@ const colorSchemes = [{
         color4: "rgba(213, 185, 178, 1)",
         color5: "#cebebe",
         color6: "#ece2d0",
-        color7: "#fdfded"
+        color7: "#fdfded",
+        color8: "#dbcccc"
     },
     {
         name: "Sky",
@@ -48,7 +49,8 @@ const colorSchemes = [{
         color4: "rgb(0, 180, 216, 1)",
         color5: "#90e0ef",
         color6: "#caf0f8",
-        color7: "#fdfded"
+        color7: "#fdfded",
+        color8: "#b3eef8"
     },
     {
         name: "Magma",
@@ -59,7 +61,8 @@ const colorSchemes = [{
         color4: "rgb(232, 93, 4, 1)",
         color5: "#f48c06",
         color6: "#ffba08",
-        color7: "#ffe854"
+        color7: "#ffe854",
+        color8: "#ffa52f"
     },
     {
         name: "Forest",
@@ -70,7 +73,8 @@ const colorSchemes = [{
         color4: "rgb(116, 198, 157, 1)",
         color5: "#95d5b2",
         color6: "#b7e4c7",
-        color7: "#d8f3dc"
+        color7: "#d8f3dc",
+        color8: "#aae7c6"
     },
     {
         name: "Greyscale",
@@ -81,7 +85,8 @@ const colorSchemes = [{
         color4: "rgb(173, 181, 189, 1)",
         color5: "#ced4da",
         color6: "#dee2e6",
-        color7: "#fdfdfd"
+        color7: "#fdfdfd",
+        color8: "#dde2e7"
     }];
 
 const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going." \n– Jim Ryun',
@@ -594,6 +599,7 @@ function changeColorScheme(colorScheme) {
     document.documentElement.style.setProperty("--color5", colorScheme.color5);
     document.documentElement.style.setProperty("--color6", colorScheme.color6);
     document.documentElement.style.setProperty("--color7", colorScheme.color7);
+    document.documentElement.style.setProperty("--color8", colorScheme.color8);
 
     localStorage.setItem("theme", JSON.stringify(colorScheme));
     

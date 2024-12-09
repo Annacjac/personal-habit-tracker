@@ -6,6 +6,7 @@
     --color5: #cebebe;
     --color6: #ece2d0;
     --color7: #fdfded;
+    --color8: #dbcccc;
 }
 
 body {
@@ -162,7 +163,7 @@ body {
     border-radius: 20px;
     font-weight: bold;
     font-size: 16px;
-    background-color: var(--color7);
+    background-color: var(--color6);
 }
 
 #name-input {
@@ -182,6 +183,14 @@ body {
     border: none;
     font-weight: bold;
     font-size: 16px;
+}
+
+#create-habit-btn:hover, #clear-btn:hover, #search-btn:hover {
+    background: var(--color8)
+}
+
+#create-habit-btn:active, #clear-btn:active, #search-btn:active {
+    background: var(--color5)
 }
 
 #delete-img {
@@ -328,7 +337,7 @@ body {
     border-radius: 20px;
     font-weight: bold;
     font-size: 16px;
-    background-color: var(--color7);
+    background-color: var(--color6);
 }
 
 #overall-progress-bar {
@@ -383,4 +392,12 @@ body {
 
 ::placeholder {
     color: black;
+}
+
+#add-btn:hover, #cancel-btn:hover, #yes-btn:hover, #no-btn:hover {
+    background-color: var(--color7);
+}
+
+#add-btn:active, #cancel-btn:active, #yes-btn:active, #no-btn:active {
+    background-color: var(--color6);
 }
