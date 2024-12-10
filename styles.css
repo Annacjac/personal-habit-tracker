@@ -19,15 +19,7 @@ body {
     
 }
 
-#main {
-    background-color: var(--color3);
-    width: 100%;
-    margin: auto;
-    height: fit-content;
-    padding-bottom: 50px;
-    border-radius: 30px;
-}
-
+/*=========TOP SECTION STYLES=========*/
 #title {
     margin-top: 50px;
     font-size: 50px;
@@ -45,27 +37,29 @@ body {
     font-size: 34px;
 }
 
-#habits-headers {
+#quote {
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    width: 80%;
-    display: flex;
+    margin-bottom: 40px;
+    max-width: 90%;
+    text-align: center;
+    height: fit-content;
+    font-size: 20px;
 }
+/*========================================*/
 
-.habit-header {
-    width: 33%;
-    font-weight: bold;
+
+/*=========MAIN STYLE=========*/
+#main {
+    background-color: var(--color3);
+    width: 100%;
+    margin: auto;
+    height: fit-content;
+    padding-bottom: 50px;
+    border-radius: 30px;
 }
+/*================================*/
 
-#habit-name-header {
-    text-align: left;
-}
-
-#habit-progress-header {
-    text-align: right;
-}
-
+/*===========PAGE SELECTOR STYLES============*/
 #habit-page-selector-section {
     display: flex;
     justify-content: space-around;
@@ -90,7 +84,76 @@ body {
    
 }
 
+.selected-button {
+    text-decoration-line: underline;
+    text-decoration-thickness: 3px;;
+    text-underline-offset: 6px;
+}
 
+#daily-habit-btn {
+    margin-right: -100px
+}
+
+#monthly-habit-btn {
+    margin-left: -100px;
+}
+/*======================================*/
+
+/*============SEARCH BAR STYLES===========*/
+#search-btn {
+    border: none;
+    background-color: var(--color5);
+    width: 12%;
+    height: 43px;
+    font-weight: bold;
+    border-radius: 15px;
+    margin-left: 5px;
+}
+
+#search-bar {
+    border: none;
+    margin-bottom: 30px;
+    width: 55%;
+    height: 40px;
+    margin-right: 5px;
+    background-color: var(--color6);
+    border-radius: 15px;
+    font-size: 14px;
+}
+/*========================================*/
+
+/*=========HABIT HEADERS STYLES=========*/
+#habits-headers {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 80%;
+    display: flex;
+}
+
+#habit-name-header {
+    text-align: left;
+}
+
+#habit-progress-header {
+    text-align: right;
+}
+
+.habit-header {
+    width: 33%;
+    font-weight: bold;
+}
+
+#divider {
+    border: 2px solid black;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 25px;
+}
+/*=====================================*/
+
+
+/*==============HABIT ENTRY STYLES============*/
 .habit {
     padding: 10px;
     display: flex;
@@ -114,83 +177,6 @@ body {
 
 .habit-progress {
     text-align: right;
-}
-
-.selected-button {
-    text-decoration-line: underline;
-    text-decoration-thickness: 3px;;
-    text-underline-offset: 6px;
-}
-
-#new-habit {
-    width: 400px;
-    height: fit-content;
-    padding: 40px;
-    margin: auto;
-    background-color: var(--color4);
-    border-radius: 30px;
-}
-
-#add-habit-title {
-    margin-top: -10px;
-    font-size: 24px;
-}
-
-.field-name {
-    margin-right: 8px;
-    font-size: 18px;
-}
-
-.input-field {
-    height: 25px;
-    border: none;
-    border-radius: 15px;
-    background-color: var(--color7);
-}
-
-#interval-dropdown {
-    height: 30px;
-    border: none;
-    border-radius: 15px;
-    background-color: var(--color7);
-}
-
-#add-btn, #cancel-btn  {
-    width: 60%;
-    height: 40px;
-    border: none;
-    width: 49%;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 16px;
-    background-color: var(--color6);
-}
-
-#name-input {
-    margin-bottom: 10px;
-}
-
-#frequency-input {
-    width: 40px;
-    margin-bottom: 20px;
-}
-
-#create-habit-btn, #clear-btn {
-    width: 49%;
-    height: 40px;
-    border-radius: 15px;
-    background-color: var(--color5); 
-    border: none;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-#create-habit-btn:hover, #clear-btn:hover, #search-btn:hover {
-    background: var(--color8)
-}
-
-#create-habit-btn:active, #clear-btn:active, #search-btn:active {
-    background: var(--color5)
 }
 
 #delete-img {
@@ -229,47 +215,10 @@ body {
     background-repeat: no-repeat;
 }
 
-#search-btn {
-    border: none;
-    background-color: var(--color5);
-    width: 12%;
-    height: 43px;
-    font-weight: bold;
-    border-radius: 15px;
-    margin-left: 5px;
-}
-
-#search-bar {
-    border: none;
-    margin-bottom: 30px;
-    width: 55%;
-    height: 40px;
-    margin-right: 5px;
-    background-color: var(--color6);
-    border-radius: 15px;
-    font-size: 14px;
-}
-
 .single-habit-container {
     display: flex;
     margin: auto;
     max-width: 600px;
-}
-
-#quote {
-    margin: auto;
-    margin-bottom: 40px;
-    max-width: 90%;
-    text-align: center;
-    height: fit-content;
-    font-size: 20px;
-}
-
-#divider {
-    border: 2px solid black;
-    width: 80%;
-    margin: auto;
-    margin-bottom: 25px;
 }
 
 #habits-section {
@@ -285,7 +234,36 @@ body {
 #empty-msg {
     margin-bottom: 20px;
 }
+/*=================================*/
 
+/*========OVERALL PROGRESS BAR STYLES======*/
+#overall-progress-bar {
+    background-color: var(--color6);
+    border-radius: 20px;
+    width: 70%;
+    height: 30px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#progress-bar-text {
+    height: fit-content;
+    width: fit-content;
+    margin: auto;
+    line-height: 2;
+}
+
+#progress-bar-title {
+    color: var(--color6);
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: -5px;
+}
+/*=========================================*/
+
+/*========BOTTOM BUTTON STYLES=========*/
 #bottom-btns {
     width: 70%;
     height: 40px;
@@ -294,14 +272,140 @@ body {
     font-weight: bold;
 }
 
-#daily-habit-btn {
-    margin-right: -100px
+#create-habit-btn, #clear-btn {
+    width: 49%;
+    height: 40px;
+    border-radius: 15px;
+    background-color: var(--color5); 
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
 }
 
-#monthly-habit-btn {
-    margin-left: -100px;
+#create-habit-btn:hover, #clear-btn:hover, #search-btn:hover {
+    background: var(--color8)
 }
 
+#create-habit-btn:active, #clear-btn:active, #search-btn:active {
+    background: var(--color5)
+}
+/*=================================*/
+
+/*========THEME SELECTION STYLES=============*/
+#theme-dropdown {
+    margin-top: 20px;
+    border-radius: 20px;
+    text-align: center;
+    height:  30px; 
+    width: 120px;
+    background-color: var(--color5);
+    border: none;
+}
+
+#theme-label {
+    color: var(--color6);
+    background: none;
+    border: none;
+    margin-right: 5px;
+}
+
+#theme-btn:hover {
+    color: var(--color7)
+}
+
+#theme-btn:active {
+    color: var(--color5);
+}
+/*==========================================*/
+
+/*=========FOOTER STYLES=========*/
+#footer {
+    color: var(--color6);
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+#created-by {
+    margin-bottom: -10px;
+}
+
+#github-link, #github-link:active {
+    color: var(--color4);
+}
+
+#github-link:hover {
+    color: var(--color5);
+}
+/*===============================*/
+
+/*==========NEW HABIT FORM STYLES==========*/
+#new-habit {
+    width: 400px;
+    height: fit-content;
+    padding: 40px;
+    margin: auto;
+    background-color: var(--color4);
+    border-radius: 30px;
+}
+
+#add-habit-title {
+    margin-top: -10px;
+    font-size: 24px;
+}
+
+#name-input {
+    margin-bottom: 10px;
+}
+
+#frequency-input {
+    width: 40px;
+    margin-bottom: 20px;
+}
+
+#interval-dropdown {
+    height: 30px;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--color7);
+}
+
+#add-btn, #cancel-btn  {
+    width: 60%;
+    height: 40px;
+    border: none;
+    width: 49%;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: var(--color6);
+}
+
+.field-name {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.input-field {
+    height: 25px;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--color7);
+}
+
+#add-btn:hover, #cancel-btn:hover, #yes-btn:hover, #no-btn:hover {
+    background-color: var(--color7);
+}
+
+#add-btn:active, #cancel-btn:active, #yes-btn:active, #no-btn:active {
+    background-color: var(--color6);
+}
+
+::placeholder {
+    color: black;
+}
+/*===================================*/
+
+/*============CONFIRMATION PROMPT STYLES========*/
 #confirmation-prompt {
     background-color: var(--color4);
     margin: auto;
@@ -339,84 +443,4 @@ body {
     font-size: 16px;
     background-color: var(--color6);
 }
-
-#overall-progress-bar {
-    background-color: var(--color6);
-    border-radius: 20px;
-    width: 70%;
-    height: 30px;
-    margin: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-#progress-bar-text {
-    height: fit-content;
-    width: fit-content;
-    margin: auto;
-    line-height: 2;
-}
-
-#progress-bar-title {
-    color: var(--color6);
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 20px;
-    margin-bottom: -5px;
-}
-
-#theme-dropdown {
-    margin-top: 20px;
-    border-radius: 20px;
-    text-align: center;
-    height:  30px; 
-    width: 120px;
-    background-color: var(--color5);
-    border: none;
-}
-
-#theme-label {
-    color: var(--color6);
-    background: none;
-    border: none;
-    margin-right: 5px;
-}
-
-#theme-btn:hover {
-    color: var(--color7)
-}
-
-#theme-btn:active {
-    color: var(--color5);
-}
-
-::placeholder {
-    color: black;
-}
-
-#add-btn:hover, #cancel-btn:hover, #yes-btn:hover, #no-btn:hover {
-    background-color: var(--color7);
-}
-
-#add-btn:active, #cancel-btn:active, #yes-btn:active, #no-btn:active {
-    background-color: var(--color6);
-}
-
-#footer {
-    color: var(--color6);
-    margin-top: 40px;
-    margin-bottom: 50px;
-}
-
-#created-by {
-    margin-bottom: -10px;
-}
-
-#github-link, #github-link:active {
-    color: var(--color4);
-}
-
-#github-link:hover {
-    color: var(--color5);
-}
-
+/*====================================*/

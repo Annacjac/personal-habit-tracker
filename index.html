@@ -7,19 +7,25 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+
+    <!--Top section, including title, date, and quote-->
     <div id="top-section">
         <h1 id="title">Personal Habit Tracker</h1>
         <h2 id="date">placeholder</h2>
         <p id="quote"></p>
         
     </div>
+
+    <!--Popup for confirming changes or deletions-->
     <div id="confirmation-prompt-background">
         <div id="confirmation-prompt">
             <p id="prompt"></p>
             <button id="yes-btn">Yes</button>
             <button id="no-btn">No</button>
         </div>
-    </div>    
+    </div>   
+
+    <!--Main section with habits list-->
     <div id="main">
         <div id="habit-page-selector-section">
             <button class= "page-selector-btn selected-button" id="daily-habit-btn">Daily</button>
@@ -61,10 +67,14 @@
             </select>
         </div>
     </div>
+
+    <!--Footer section-->
     <div id="footer">
         <p id="created-by">This website was created by Anna Jacobson.</p>
         <p id="learn-more">Learn more about this website on the <a id="github-link" target="_blank" href="https://github.com/Annacjac/personal-habit-tracker">Github page</a>.</p>
     </div>
+
+    <!--New habit form-->
     <form id="new-habit" hidden>
         <h3 id="add-habit-title">Add Habit</h3>
         <span class="field-name">Habit Name:</span>

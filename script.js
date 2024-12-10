@@ -1,3 +1,4 @@
+//===========================BUTTONS==============================
 const dailyHabitBtn = document.getElementById("daily-habit-btn");
 const weeklyHabitBtn = document.getElementById("weekly-habit-btn");
 const monthlyHabitBtn = document.getElementById("monthly-habit-btn");
@@ -11,6 +12,7 @@ const yesBtn = document.getElementById("yes-btn");
 const noBtn = document.getElementById("no-btn");
 const changeThemeBtn = document.getElementById("theme-btn");
 
+//===========================OTHER ELEMENTS==============================
 const dailyHabits = document.getElementById("daily-habits");
 const weeklyHabits = document.getElementById("weekly-habits");
 const monthlyHabits = document.getElementById("monthly-habits");
@@ -28,6 +30,8 @@ const overallProgressBar = document.getElementById("overall-progress-bar");
 const progressBarText = document.getElementById("progress-bar-text");
 const themeDropdown = document.getElementById("theme-dropdown");
 const dateText = document.getElementById("date");
+
+//===========================CONSTANTS==============================
 const colorSchemes = [{
         name: "Rose",
         id: 0,
@@ -102,11 +106,14 @@ const motivationalQuotes = ['"Motivation gets you started. Habit keeps you going
 '"It’s not what we do once in a while that shapes our lives, but what we do consistently." \n– Tony Robbins',
 '"The difference between who you are and who you want to be is what you do." \n– Charles Duhigg',
 '"Every action you take is a vote for the type of person you wish to become." \n– James Clear'];
+
+//===========================VARIABLES==============================
 let habitsList = JSON.parse(localStorage.getItem("data")) || [];
-let currentHabitPage = "Daily";
+let currentHabitPage = "Daily"; //Daily, Weekly, or Monthly
 let idNumber = JSON.parse(localStorage.getItem("idNumber")) || 0;
 let currentTheme = JSON.parse(localStorage.getItem("theme")) || colorSchemes[0];
 
+//===========================EVENT LISTENER ASSIGNMENTS==============================
 dailyHabitBtn.addEventListener("click", showDailyHabits);
 weeklyHabitBtn.addEventListener("click", showWeeklyHabits);
 monthlyHabitBtn.addEventListener("click", showMonthlyHabits);
@@ -119,71 +126,21 @@ newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 })
 
+//===========================INITIAL ASSIGNMENTS AND FUNCTION CALLS==============================
 themeDropdown.value = Number(currentTheme.id);
 dateText.innerText = getFormattedDate();
-
 confirmationPopup.hidden = "true";
-updateHabitList(habitsList);
+updateViewport(habitsList);
 getRandomQuote();
 checkDate();
 showDailyHabits();
 changeColorScheme(currentTheme);
 
-function showDailyHabits(){
-    currentHabitPage = "Daily";
-    dailyHabits.removeAttribute("hidden");
-    weeklyHabits.hidden = "true";
-    monthlyHabits.hidden = "true";
 
-    dailyHabitBtn.classList.add("selected-button");
-    weeklyHabitBtn.classList.remove("selected-button");
-    monthlyHabitBtn.classList.remove("selected-button");
 
-    searchBar.value = "";
-    updateHabitList(habitsList);
-
-    clearBtn.onclick = () => confirmChanges("clear", "day");
-
-    
-}
-
-function showWeeklyHabits(){
-    currentHabitPage = "Weekly";
-    dailyHabits.hidden = "true";
-    weeklyHabits.removeAttribute("hidden");
-    monthlyHabits.hidden = "true";
-
-    dailyHabitBtn.classList.remove("selected-button");
-    weeklyHabitBtn.classList.add("selected-button");
-    monthlyHabitBtn.classList.remove("selected-button");
-
-    searchBar.value = "";
-    updateHabitList(habitsList);
-
-    clearBtn.onclick = () => confirmChanges("clear", "week");
-
-    
-}
-
-function showMonthlyHabits(){
-    currentHabitPage = "Monthly";
-    dailyHabits.hidden = "true";
-    weeklyHabits.hidden = "true";
-    monthlyHabits.removeAttribute("hidden");
-
-    dailyHabitBtn.classList.remove("selected-button");
-    weeklyHabitBtn.classList.remove("selected-button");
-    monthlyHabitBtn.classList.add("selected-button");
-
-    searchBar.value = "";
-    updateHabitList(habitsList);
-
-    clearBtn.onclick = () => confirmChanges("clear", "month");
-
-    
-}
-
-function updateHabitList(array) {
+//===========================UPDATE VIEWPORT==============================
+//Updates the viewport by creating an HTML element for each habit in the habits list.
+function updateViewport(array) {
 
     dailyHabits.innerHTML = "";
     weeklyHabits.innerHTML = "";
@@ -196,7 +153,7 @@ function updateHabitList(array) {
     let monthlyOverallGoal = 0;
     let monthlyOverallProgress = 0;
 
-
+    //creates HTML element for each habit
     for(let i = 0; i < array.length; i++) {
         let progressPercentage = (array[i].progress / array[i].frequency) * 100;
         let html = `
@@ -217,6 +174,7 @@ function updateHabitList(array) {
             <button class="edit-btn" onclick="openHabitForm('edit', '${array[i].id}')"></button>
         </div>`;
         
+        //sets overall progress for bottom progress bar
         if(array[i].interval === "day") {
             dailyHabits.innerHTML += html;
             dailyOverallGoal += Number(array[i].frequency);
@@ -233,12 +191,9 @@ function updateHabitList(array) {
             monthlyOverallProgress += Number(array[i].progress);
         }
 
-        if(array[i].progress > array[i].interval){
-            document.getElementById()
-        }
-
     }
 
+    //Styles the progress bar based on interval and overall progress
     if(currentHabitPage === "Daily") {
         let dailyProgressPercentage = (dailyOverallProgress / dailyOverallGoal) * 100;
         if(dailyProgressPercentage >= 100 && (dailyOverallGoal !== 0 && dailyOverallProgress !== 0)) {
@@ -288,6 +243,7 @@ function updateHabitList(array) {
         
     }
 
+    //displays a message if there are no habits in the list.
     if(dailyHabits.innerHTML === "") {
         dailyHabits.innerHTML = emptyMessageHTML;
     }
@@ -302,6 +258,67 @@ function updateHabitList(array) {
     
 }
 
+
+
+//===========================SHOW DAILY HABITS==============================
+//Displays the daily tasks to the viewport by setting necessary attributes and classes.
+function showDailyHabits(){
+    currentHabitPage = "Daily";
+    dailyHabits.removeAttribute("hidden");
+    weeklyHabits.hidden = "true";
+    monthlyHabits.hidden = "true";
+
+    dailyHabitBtn.classList.add("selected-button");
+    weeklyHabitBtn.classList.remove("selected-button");
+    monthlyHabitBtn.classList.remove("selected-button");
+
+    searchBar.value = "";
+    updateViewport(habitsList);
+
+    clearBtn.onclick = () => confirmChanges("clear", "day");
+}
+
+//===========================SHOW WEEKLY HABITS==============================
+//Displays the weekly tasks to the viewport by setting necessary attributes and classes.
+function showWeeklyHabits(){
+    currentHabitPage = "Weekly";
+    dailyHabits.hidden = "true";
+    weeklyHabits.removeAttribute("hidden");
+    monthlyHabits.hidden = "true";
+
+    dailyHabitBtn.classList.remove("selected-button");
+    weeklyHabitBtn.classList.add("selected-button");
+    monthlyHabitBtn.classList.remove("selected-button");
+
+    searchBar.value = "";
+    updateViewport(habitsList);
+
+    clearBtn.onclick = () => confirmChanges("clear", "week");
+}
+
+//===========================SHOW MONTHLY HABITS==============================
+//Displays the monthly tasks to the viewport by setting necessary attributes and classes.
+function showMonthlyHabits(){
+    currentHabitPage = "Monthly";
+    dailyHabits.hidden = "true";
+    weeklyHabits.hidden = "true";
+    monthlyHabits.removeAttribute("hidden");
+
+    dailyHabitBtn.classList.remove("selected-button");
+    weeklyHabitBtn.classList.remove("selected-button");
+    monthlyHabitBtn.classList.add("selected-button");
+
+    searchBar.value = "";
+    updateViewport(habitsList);
+
+    clearBtn.onclick = () => confirmChanges("clear", "month");   
+}
+
+
+
+
+//===========================ADD HABIT==============================
+//Adds a new habit to the list with input from form
 function addHabit() {
     deleteBtn.hidden = "true";
     
@@ -323,40 +340,78 @@ function addHabit() {
     habitsList.push(habit);
     localStorage.setItem("data", JSON.stringify(habitsList));
 
-    updateHabitList(habitsList);
+    updateViewport(habitsList);
     closeHabitForm();
 }
 
-function clearCreateHabitForm() {
-    newHabitNameInput.value = "";
-    newHabitFrequencyInput.value = "";
-    
-}
-
-function increaseProgress(id) {
-
-    let habit = findHabitById(id);
-
-
-    if(!habit){
-        console.error("Habit not found.");
+//===========================EDIT HABIT==============================
+//Replaces existing habit values with new values from form input
+function editHabit(id) {
+    if(!newHabitNameInput.value || !newHabitFrequencyInput.value) {
+        alert("Please fill all input fields.");
         return;
-    }
+    }   
 
-    if(Number(habit.progress) === Number(habit.frequency)){
-        return;
-    }
-    
-    habit.progress++;
-
+    findHabitById(id).name = newHabitNameInput.value;
+    findHabitById(id).frequency = newHabitFrequencyInput.value;
+    findHabitById(id).interval = newHabitIntervalInput.value;
     localStorage.setItem("data", JSON.stringify(habitsList));
-    updateHabitList(habitsList);
+    closeHabitForm();
+    searchHabits(searchBar.value);
 }
 
+//===========================DELETE HABIT==============================
+//Removes habit of the specified ID from the habits list.
+function deleteHabit(id) {
+    let index = habitsList.indexOf(findHabitById(id));
+    habitsList.splice(index, 1);
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    if (habitsList.length === 0 ) {
+        idNumber = 0;
+        localStorage.setItem("idNumber", JSON.stringify(idNumber));
+    }
+    updateViewport(habitsList);
+    closeHabitForm();
+}
+
+
+
+
+//===========================CLEAR ALL HABITS=============================
+//Removes all habits from habits array
+function clearList() {
+    while(habitsList.length > 0) {
+        habitsList.pop();
+        updateViewport(habitsList);
+    }
+    idNumber = 0;
+    localStorage.setItem("idNumber", JSON.stringify(idNumber));
+    localStorage.setItem("data", JSON.stringify(habitsList));
+}
+
+//===========================CLEAR HABITS OF INTERVAL==============================
+//Removes all habits of a specified interval (daily, weekly, monthly) from list and viewport
+function clearHabitsOfInterval(interval) {
+    let habitsToClear = findHabitsByInterval(interval);
+    for(let i = 0; i < habitsToClear.length; i++) {
+        let index = habitsList.indexOf(habitsToClear[i]);
+        habitsList.splice(index, 1);
+    }
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    updateViewport(habitsList);
+}
+
+
+
+
+//===========================OPEN HABIT FORM==============================
+//Displays the new habit form to the viewport
 function openHabitForm(addOrEdit, id) {
     habit = findHabitById(id);
     mainPage.hidden = "true";
     newHabitForm.removeAttribute("hidden");
+
+    //sets form fields and text based on whether habit is being added or edited
     if(addOrEdit === "add") {
         addHabitTitle.innerText = "Add Habit";
         addHabitBtn.innerText = "Add";
@@ -385,6 +440,8 @@ function openHabitForm(addOrEdit, id) {
     }
 }
 
+//===========================CLOSE HABIT FORM==============================
+//Removes the new habit form from the viewport
 function closeHabitForm() {
     newHabitForm.hidden = "true";
     mainPage.removeAttribute("hidden");
@@ -392,11 +449,19 @@ function closeHabitForm() {
     
 }
 
-function getRandomQuote() {
-    let index = Math.floor(Math.random() * (motivationalQuotes.length - 1));
-    quote.innerText = motivationalQuotes[index];
+//===========================CLEAR HABIT FORM==============================
+//Clears the values in the form's input fields
+function clearCreateHabitForm() {
+    newHabitNameInput.value = "";
+    newHabitFrequencyInput.value = "";
+    
 }
 
+
+
+
+//===========================FIND HABIT BY ID==============================
+//Returns a habit based on the specified ID
 function findHabitById(id) {
 
     for(let i = 0; i < habitsList.length; i++){
@@ -407,52 +472,8 @@ function findHabitById(id) {
     return null;
 }
 
-function clearList() {
-    while(habitsList.length > 0) {
-        habitsList.pop();
-        updateHabitList(habitsList);
-    }
-    idNumber = 0;
-    localStorage.setItem("idNumber", JSON.stringify(idNumber));
-    localStorage.setItem("data", JSON.stringify(habitsList));
-}
-
-function clearHabitsOfInterval(interval) {
-    let habitsToClear = findHabitsByInterval(interval);
-    for(let i = 0; i < habitsToClear.length; i++) {
-        let index = habitsList.indexOf(habitsToClear[i]);
-        habitsList.splice(index, 1);
-    }
-    localStorage.setItem("data", JSON.stringify(habitsList));
-    updateHabitList(habitsList);
-}
-
-function editHabit(id) {
-    if(!newHabitNameInput.value || !newHabitFrequencyInput.value) {
-        alert("Please fill all input fields.");
-        return;
-    }   
-
-    findHabitById(id).name = newHabitNameInput.value;
-    findHabitById(id).frequency = newHabitFrequencyInput.value;
-    findHabitById(id).interval = newHabitIntervalInput.value;
-    localStorage.setItem("data", JSON.stringify(habitsList));
-    closeHabitForm();
-    searchHabits(searchBar.value);
-}
-
-function deleteHabit(id) {
-    let index = habitsList.indexOf(findHabitById(id));
-    habitsList.splice(index, 1);
-    localStorage.setItem("data", JSON.stringify(habitsList));
-    if (habitsList.length === 0 ) {
-        idNumber = 0;
-        localStorage.setItem("idNumber", JSON.stringify(idNumber));
-    }
-    updateHabitList(habitsList);
-    closeHabitForm();
-}
-
+//===========================FIND HABIT BY INTERVAL==============================
+//Returns an array of habits of a specified interval (daily, weekly, monthly)
 function findHabitsByInterval(interval) {
     let habits = [];
     for(let i = 0; i < habitsList.length; i++) {
@@ -464,76 +485,71 @@ function findHabitsByInterval(interval) {
     return habits;
 }
 
-function findHabitsByName(name, array) {
+//===========================FIND HABITS BY NAME==============================
+//Returns an array of items from input array the whose name contains the input string
+function findHabitsByName(str, array) {
     let habits = [];
     for(let i = 0; i < array.length; i++) {
-        if(array[i].name.match(name)) {
+        if(array[i].name.match(str)) {
             habits.push(array[i]);
         }
     }
     return habits;
 }
 
-function searchHabits(name) {
+//===========================SEARCH HABITS==============================
+//Updates the viewport with only habits that match the search input
+function searchHabits(str) {
     if(currentHabitPage === "Daily") {
-        updateHabitList(findHabitsByName(name, findHabitsByInterval("day")));
+        updateViewport(findHabitsByName(str, findHabitsByInterval("day")));
     }
     else if(currentHabitPage === "Weekly") {
-        updateHabitList(findHabitsByName(name, findHabitsByInterval("week")));
+        updateViewport(findHabitsByName(str, findHabitsByInterval("week")));
     }
     else {
-        updateHabitList(findHabitsByName(name, findHabitsByInterval("month")));
+        updateViewport(findHabitsByName(str, findHabitsByInterval("month")));
     }
 }
 
-function checkDate() {
-    let currentDate = new Date();
-    //let currentDate = new Date("2024-12-08");
-    currentDate.setHours(0, 0, 0, 0);
-    let storedDate = localStorage.getItem("oldDate");
-    let oldDate = storedDate ? new Date(storedDate) : new Date();
-    //let oldDate = new Date("2024-12-07");
-    oldDate.setHours(0, 0, 0, 0);
-
-    console.log(currentDate > oldDate);
-
-    const startOfThisWeek = new Date(currentDate);
-    startOfThisWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
 
-    let dailyHabitsList = findHabitsByInterval("day");
-    let weeklyHabitsList = findHabitsByInterval("week");
-    let monthlyHabitsList = findHabitsByInterval("month");
 
-    if(currentDate > oldDate) {
-        for(let i = 0; i < dailyHabitsList.length; i++) {
-            resetProgress(dailyHabitsList[i].id);
-        }
-    }
-
-    if(currentDate > startOfThisWeek && oldDate < startOfThisWeek) {
-        for(let i = 0; i < weeklyHabitsList.length; i++) {
-            resetProgress(weeklyHabitsList[i].id);
-        }
-    }
-
-    if(currentDate.getMonth() > oldDate.getMonth() || currentDate.getFullYear() > oldDate.getFullYear()) {
-        for(let i = 0; i < monthlyHabitsList.length; i++) {
-            resetProgress(monthlyHabitsList[i].id);
-        }
-    }
-
-    localStorage.setItem("oldDate", currentDate);
-    
-}
-
+//===========================RESET PROGRESS==============================
+//Resets the progress of the habit of the specified ID
 function resetProgress(id) {
     findHabitById(id).progress = 0;
     localStorage.setItem("data", JSON.stringify(habitsList));
-    updateHabitList();
+    updateViewport();
+}
+
+//===========================INCREASE PROGRESS==============================
+//Increases the progress of a habit of specified ID
+function increaseProgress(id) {
+
+    let habit = findHabitById(id);
+
+    //checks if habit exists
+    if(!habit){
+        console.error("Habit not found.");
+        return;
+    }
+
+    //prevents progress from exceeding the goal (max) value
+    if(Number(habit.progress) === Number(habit.frequency)){
+        return;
+    }
+    
+    habit.progress++;
+
+    localStorage.setItem("data", JSON.stringify(habitsList));
+    updateViewport(habitsList);
 }
 
 
+
+
+//===========================CONFIRM CHANGES==============================
+//Opens a confirmation popup and changes the prompt text based on the action being performed
 function confirmChanges(action, interval, id) {
     document.getElementsByTagName("body").overflow
     if(action === "clear") {
@@ -570,6 +586,8 @@ function confirmChanges(action, interval, id) {
     }
 }
 
+//===========================YES BUTTON==============================
+//Executes the code for the attempted action
 function yesButton(action, interval, id) {
     confirmationPopup.hidden = "true";
     if(action === "clear") {
@@ -585,11 +603,17 @@ function yesButton(action, interval, id) {
     }
 }
 
+//===========================NO BUTTON==============================
+//Cancels the attempted action
 function noButton() {
     confirmationPopup.hidden = "true";
-    window.onscroll(() => {});
 }
 
+
+
+
+//==========================CHANGE COLOR SCHEME==============================
+//Changes the CSS variable values based on the values in the input color scheme
 function changeColorScheme(colorScheme) {
 
     document.documentElement.style.setProperty("--color1", colorScheme.color1);
@@ -605,10 +629,68 @@ function changeColorScheme(colorScheme) {
     
 }
 
+
+
+
+//===========================CHECK DATE==============================
+//Compares the current date to the date of the last session and resets habit progress respectively
+function checkDate() {
+    let currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    let storedDate = localStorage.getItem("oldDate");
+    let oldDate = storedDate ? new Date(storedDate) : new Date();
+    oldDate.setHours(0, 0, 0, 0);
+
+    console.log(currentDate > oldDate);
+
+    //Get the first day of the current week
+    const startOfThisWeek = new Date(currentDate);
+    startOfThisWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+    let dailyHabitsList = findHabitsByInterval("day");
+    let weeklyHabitsList = findHabitsByInterval("week");
+    let monthlyHabitsList = findHabitsByInterval("month");
+
+    //resets progress of all habits of the day, week, or month if the day, week, or month changes.
+    if(currentDate > oldDate) {
+        for(let i = 0; i < dailyHabitsList.length; i++) {
+            resetProgress(dailyHabitsList[i].id);
+        }
+    }
+
+    if(currentDate > startOfThisWeek && oldDate < startOfThisWeek) {
+        for(let i = 0; i < weeklyHabitsList.length; i++) {
+            resetProgress(weeklyHabitsList[i].id);
+        }
+    }
+
+    if(currentDate.getMonth() > oldDate.getMonth() || currentDate.getFullYear() > oldDate.getFullYear()) {
+        for(let i = 0; i < monthlyHabitsList.length; i++) {
+            resetProgress(monthlyHabitsList[i].id);
+        }
+    }
+
+    localStorage.setItem("oldDate", currentDate);
+    
+}
+
+//===========================GET FORMATTED DATE==============================
+//Returns a date string in the format "Month day, year"
 function getFormattedDate() {
     let date = new Date();
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     let dateText = `${month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     return dateText;
+}
+
+
+
+
+//===========================GET RANDOM QUOTE==============================
+//Generates a random number within the length of the quotes array and uses it as an index to pick a random quote
+function getRandomQuote() {
+    let index = Math.floor(Math.random() * (motivationalQuotes.length - 1));
+    quote.innerText = motivationalQuotes[index];
 }
