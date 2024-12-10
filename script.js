@@ -636,13 +636,23 @@ function changeColorScheme(colorScheme) {
 //Compares the current date to the date of the last session and resets habit progress respectively
 function checkDate() {
     let currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
+    //currentDate.setHours(0, 0, 0, 0);
 
     let storedDate = localStorage.getItem("oldDate");
-    let oldDate = storedDate ? new Date(storedDate) : new Date();
-    oldDate.setHours(0, 0, 0, 0);
+    if (!storedDate) {
+        localStorage.setItem("oldDate", currentDate.toISOString());
+        storedDate = localStorage.getItem("oldDate");
+    }
 
-    console.log(currentDate > oldDate);
+    let oldDate = new Date(storedDate);
+    if (isNaN(oldDate.getTime())) {
+        console.error("Invalid date in localStorage. Resetting to current date.");
+        oldDate = new Date(currentDate); // Default to current date if invalid
+    }
+    //oldDate.setHours(0, 0, 0, 0);
+
+    console.log(oldDate + " " + currentDate);
+    //console.log(oldDate);
 
     //Get the first day of the current week
     const startOfThisWeek = new Date(currentDate);
@@ -652,8 +662,10 @@ function checkDate() {
     let weeklyHabitsList = findHabitsByInterval("week");
     let monthlyHabitsList = findHabitsByInterval("month");
 
+    //console.log("lsdkflsk")
+
     //resets progress of all habits of the day, week, or month if the day, week, or month changes.
-    if(currentDate > oldDate) {
+    if(currentDate.getDate() > oldDate.getDate() || currentDate.getMonth() > oldDate.getMonth() || currentDate.getFullYear() > oldDate.getFullYear()) {
         for(let i = 0; i < dailyHabitsList.length; i++) {
             resetProgress(dailyHabitsList[i].id);
         }
